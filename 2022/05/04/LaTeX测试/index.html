@@ -15,17 +15,17 @@
 <meta property="og:site_name" content="lr580&#39;s blog">
 <meta property="og:description" content="2022 香农先修班第十七次课随机算法和博弈论                                                              随机算法数学理论这里的理论适用于随机算法以及概率DP 概率论摘要 随机化与概率论密切相关，下面给出部分概率论知识 (节选自我的算法模板) 自学，不讲 (这是泥萌下学期概率论要学的一部分知识点)  事件的运算规律：  若 $A\su">
 <meta property="og:locale">
-<meta property="og:image" content="https://lr580.github.io/大学/先修班/21课件/随机和博弈/img/image-20220422093551551.png">
-<meta property="og:image" content="https://lr580.github.io/大学/先修班/21课件/随机和博弈/img/image-20220422154138536.png">
-<meta property="og:image" content="https://lr580.github.io/大学/先修班/21课件/随机和博弈/img/Snipaste_2022-02-05_16-57-15.png">
-<meta property="og:image" content="https://lr580.github.io/大学/先修班/21课件/随机和博弈/img/image-20220422202831216.png">
-<meta property="og:image" content="https://lr580.github.io/大学/先修班/21课件/随机和博弈/img/image-20220430194633674.png">
+<meta property="og:image" content="https://lr580.github.io/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220422093551551.png">
+<meta property="og:image" content="https://lr580.github.io/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220422154138536.png">
+<meta property="og:image" content="https://lr580.github.io/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/Snipaste_2022-02-05_16-57-15.png">
+<meta property="og:image" content="https://lr580.github.io/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220422202831216.png">
+<meta property="og:image" content="https://lr580.github.io/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220430194633674.png">
 <meta property="article:published_time" content="2022-05-04T12:04:44.000Z">
-<meta property="article:modified_time" content="2022-05-04T12:07:42.856Z">
+<meta property="article:modified_time" content="2022-05-04T13:14:25.868Z">
 <meta property="article:author" content="lr580">
 <meta property="article:tag" content="md">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://lr580.github.io/大学/先修班/21课件/随机和博弈/img/image-20220422093551551.png">
+<meta name="twitter:image" content="https://lr580.github.io/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220422093551551.png">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -66,7 +66,7 @@
                         <span>Archives</span>
                     </a>
                     
-                    <a  href="/about">
+                    <a  target="_blank" rel="noopener" href="https://github.com/lr580">
                         <i class="fa fa-user"></i>
                         <span>About</span>
                     </a>
@@ -266,7 +266,7 @@ P({A_1\cup A_2\cup \cdots\cup A_m})\le P(A_1)+P(A_2)+\cdots+P(A_m)</script><bloc
 &-\cdots\\
 &+(-1)^{m+1}P(A_1A_2\cdots A_m)
 \end{align}</script><p>这条式子难以直接计算，但是可以通过 Venn 图举例直观判断：</p>
-<p><img src="../../../../../../大学/先修班/21课件/随机和博弈/img/image-20220422093551551.png" alt="image-20220422093551551"></p>
+<p><img src="/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220422093551551.png" alt="image-20220422093551551"></p>
 <p>左式就是所有圆的面积并(重合部分仅计算一次)，右式子就是所有圆的面积和(重合部分重合多少次算多少次)，显然因为左式存在去重，所以左式小于或等于右式（取等当且仅当任意两圆相切/相离，即重合面积为 0，即所有事件相互独立），因此证毕。</p>
 <p>我们看到，这条不等式右式其实质就是容斥展开后只要第一层。同样地，可以把右式变成只要容斥展开的前两层、前三层……上述不等式仍然成立，证明方法同理。</p>
 </blockquote>
@@ -822,7 +822,7 @@ while (t &gt; t0)
 </code></pre>
 <p>如果想要进行随机偏移，推荐使用这一种实现。通常来说，如果明确知道 $U$ 是单峰函数(也有可能是单峰多元函数，比如图像是球的上/下半部分)，但三分困难(三分简单爬山不如三分)，可以考虑爬山算法，并用该实现方法。</p>
 <p>区别在于，如果每次只从最优解出发，有可能更容易陷入局部最优解。</p>
-<p><img src="../../../../../../大学/先修班/21课件/随机和博弈/img/image-20220422154138536.png" alt="image-20220422154138536"></p>
+<p><img src="/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220422154138536.png" alt="image-20220422154138536"></p>
 <p>例如从蓝色出发，第二种实现更可能直接在局部最优解(红色)，而不是全局最优解(绿色)。</p>
 <p>技巧：通常降温系数 $C\in [0.985,0.999],t_0=10^{-15}$ (即 double 最小精度)，$t$ 一般看定义域，例如 $t=10^4$ 。</p>
 <p>如果担心一次爬山找不到最优解，可以多爬几次；可以每次爬山循环尽可能多次(可以用计时函数统计，发现差不多超时就结束，可以调参)。也可以在降温结束后再在最终温度附近再跑若干次。也可以用分块技巧(峰值过多)，此时可以把整个值域分成几段，每段跑一遍算法，然后再取最优解。</p>
@@ -1046,7 +1046,7 @@ signed main()
 &#125;
 </code></pre>
 </blockquote>
-<h3 id="珂朵莉树"><a href="#珂朵莉树" class="headerlink" title="珂朵莉树"></a>珂朵莉树</h3><p><img src="../../../../../../大学/先修班/21课件/随机和博弈/img/Snipaste_2022-02-05_16-57-15.png" alt="Snipaste_2022-02-05_16-57-15"></p>
+<h3 id="珂朵莉树"><a href="#珂朵莉树" class="headerlink" title="珂朵莉树"></a>珂朵莉树</h3><p><img src="/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/Snipaste_2022-02-05_16-57-15.png" alt="Snipaste_2022-02-05_16-57-15"></p>
 <p>Chtholly Tree。又名老司机树，ODT(Old Driver Tree)，自学</p>
 <p>用处：骗分。只要是有区间赋值操作的数据结构题都可以用来骗分。在数据随机的情况下一般效率较高，但在不保证数据随机的场合下，会被精心构造的特殊数据卡到超时。</p>
 <p>在<strong>数据随机</strong>的情况下，使用 set 实现珂朵莉树的复杂度是 $O(n\log\log n)$ </p>
@@ -1264,7 +1264,7 @@ signed main()
 </blockquote>
 <p>已知这三条性质，可以把ICG抽象为一张有向无环图(DAG)，每个节点是一个局面，每条有向边是移动，通过搜索就可以得出每个局面是胜还是负。如果一共有 $n$ 个局面，$m$ 种移动(即所有局面的所有移动加起来是 $m$ )，那么时间复杂度是 $O(n+m)$ ，空间复杂度是 $O(n)$ 或 $O(1)$ (后者只存储起始状态结果)</p>
 <h4 id="例题-2"><a href="#例题-2" class="headerlink" title="例题"></a>例题</h4><p>2022蓝桥杯省赛CA真题B题</p>
-<p><img src="../../../../../../大学/先修班/21课件/随机和博弈/img/image-20220422202831216.png" alt="image-20220422202831216"></p>
+<p><img src="/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220422202831216.png" alt="image-20220422202831216"></p>
 <p>题意：有四组询问，以每个询问作为<strong>先手走了一步后的</strong>局面，若先手必胜输出 <code>V</code> ，否则输出 <code>L</code> 。(即当前局面必败输出 <code>V</code> ，否则输出 <code>L</code> )</p>
 <p>注意：这个博弈并不是ICG (可以看成是反常游戏，即胜者为第一个无法行动的玩家，即当前无局面可走 $\to$ 上一个人放下棋子放满 $\to$ 上一个人输 $\to$ 当前人胜)，因为<strong>无局面可走是胜</strong>，所以需要特判：</p>
 <pre><code class="lang-mermaid">graph LR;
@@ -1373,7 +1373,7 @@ sg(x)=mex\{sg(y)|y为x的直接儿子\}</script><p>注意到叶子节点(合法�
 <p>解：</p>
 <p>局面可以画成有向图。令节点编号代表当前剩余石子数，那么该有向图一定是第 $i$ 个节点连向所有满足 $\forall j\in N,1\le j\le i-m$ 的 $j$ 。</p>
 <p>如 $n=4,m=3$ 时，有向图如下所示：</p>
-<p><img src="../../../../../../大学/先修班/21课件/随机和博弈/img/image-20220430194633674.png" alt="image-20220430194633674"></p>
+<p><img src="/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220430194633674.png" alt="image-20220430194633674"></p>
 <p>那么只需要求出 $SG(n)$ ，就知道先手必胜与否。</p>
 <p>逐个计算，得：</p>
 <div class="table-container">
@@ -1503,7 +1503,7 @@ sg(x)=mex\{sg(y)|y为x的直接儿子\}</script><p>注意到叶子节点(合法�
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2022年05月04日 20:07</p>
+        <p>最后更新： 2022年05月04日 21:14</p>
         <p>原始链接： <a class="post-url" href="/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/" title="LaTeX测试">https://lr580.github.io/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/</a></p>
         <footer>
             <a href="https://lr580.github.io">
@@ -1728,7 +1728,7 @@ sg(x)=mex\{sg(y)|y为x的直接儿子\}</script><p>注意到叶子节点(合法�
             </li>
             
             <li>
-                <a  href="/about">
+                <a  target="_blank" rel="noopener" href="https://github.com/lr580">
                     <i class="fa fa-user"></i><span>About</span>
                 </a>
             </li>
