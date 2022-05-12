@@ -16,7 +16,7 @@
 <meta property="og:description" content="博客搭建记录我是如何搭建本博客的一些关键过程。 Hexo环境准备参考 安装 node ，检测安装成功： 12node --versionnpm --version 安装 hexo ： 1npm install -g hexo-cli # -g 全局安装 在某个新建文件夹里： 123hexo init 博客名cd 博客名npm install 创建一篇文章：(删除暴力删就行，修改也是) 1hexo">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-05-12T10:27:48.000Z">
-<meta property="article:modified_time" content="2022-05-12T12:13:33.292Z">
+<meta property="article:modified_time" content="2022-05-12T12:24:29.662Z">
 <meta property="article:author" content="lr580">
 <meta property="article:tag" content="心得">
 <meta name="twitter:card" content="summary">
@@ -191,6 +191,7 @@
 <p>具体的代码块配置望文生义即可，比如行号。而 <code>auto_detect</code> 是指没有标明代码块代码时自动检测，关了也行。</p>
 <h2 id="评论支持"><a href="#评论支持" class="headerlink" title="评论支持"></a>评论支持</h2><p>使用 gitalk 。</p>
 <blockquote>
+<p>参考文献： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lucas27/p/14723040.html">issue错误解决</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43941364/article/details/104160976">副代码</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_34358365/article/details/88866068?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-4-88866068-blog-104160976.pc_relevant_paycolumn_v3&amp;spm=1001.2101.3001.4242.3&amp;utm_relevant_index=7">主代码</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/tiantianzs/article/details/122754511">错误解决2</a></p>
 <p>不使用 gitment 是因为我没折腾成功。不使用其他是因为其他评论插件好像本来就死的差不多了，因为众所周知的原因，匿名交流是被限制的</p>
 </blockquote>
 <p>可能需要安装，如：(大概是这么个指令，也有可能不用)</p>
@@ -209,7 +210,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2022年05月12日 20:13</p>
+        <p>最后更新： 2022年05月12日 20:24</p>
         <p>原始链接： <a class="post-url" href="/2022/05/12/%E5%BB%BA%E7%AB%99%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" title="建站过程记录">https://lr580.github.io/2022/05/12/%E5%BB%BA%E7%AB%99%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</a></p>
         <footer>
             <a href="https://lr580.github.io">
@@ -331,7 +332,7 @@
         labels: 'gitalk'.split(',').filter(l => l),
         perPage: 15,
     	pagerDirection: 'last',
-    	createIssueManually: false,
+    	createIssueManually: true,
     	distractionFreeMode: false,
     })
     gitalk.render('gitalk-container')
