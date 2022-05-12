@@ -246,22 +246,24 @@
 
 
     
-        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
-    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
-    <div id="comments">
-        <script>
-            var gitment = new Gitment({
-                owner: 'lr580',
-                repo: 'lr580.github.io',
-                oauth: {
-                    client_id: '6e8ca84614e8d6de868c',
-                    client_secret: 'bd819b13650d089fa5e4708a9a5cd16bb122206d',
-                },
-            })
-            gitment.render('comments')
-        </script>
-    </div>
+    <!-- <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script> -->
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
 
+<div id="comments">
+    <script>
+        var gitment = new Gitment({
+            owner: 'lr580',
+            repo: 'lr580.github.io',
+            oauth: {
+                client_id: '6e8ca84614e8d6de868c',
+                client_secret: 'bd819b13650d089fa5e4708a9a5cd16bb122206d',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</div>
     
 </section>
         
