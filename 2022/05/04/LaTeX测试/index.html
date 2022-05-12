@@ -886,25 +886,19 @@ sg(x)=mex\{sg(y)|y为x的直接儿子\}</script><p>注意到叶子节点(合法�
 
     
 	
-<link <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <div id="gitalk-container"></div>
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
 <script type="text/javascript">
-  var gitalk = new Gitalk({
-    clientID: '{{ theme.gitalk.ClientID }}',
-    clientSecret: '{{ theme.gitalk.ClientSecret }}',
-    repo: '{{ theme.gitalk.repo }}',
-    owner: '{{ theme.gitalk.owner }}',
-    admin: ['{{ theme.gitalk.adminUser }}'],
-    id: md5(location.pathname),   // ISSUE：location.href 限制50个字符 (应该是Issue 内容存数据库的标识， 具体在页面上无感)
-    labels: '{{ theme.gitalk.labels }}'.split(',').filter(l => l),  // 需要的 labels需要一个数组，否则会报错
-    perPage: {{ theme.gitalk.perPage }},
-    pagerDirection: '{{ theme.gitalk.pagerDirection }}',
-    createIssueManually: {{ theme.gitalk.createIssueManually }},
-    distractionFreeMode: {{ theme.gitalk.distractionFreeMode }}
-  })
-  gitalk.render('gitalk-container')
+    var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        id: window.location.pathname,
+        repo: 'gitalkrepo',
+        owner: 'lr580',
+        admin: ''
+    })
+    gitalk.render('gitalk-container')
 </script>
 
     
