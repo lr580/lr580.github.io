@@ -263,11 +263,10 @@
         labels: 'gitalk'.split(',').filter(l => l),
         perPage: 15,
     	pagerDirection: 'last',
-    	createIssueManually: true,
-    	distractionFreeMode: false,
+		language: 'zh-CN',
     })
     gitalk.render('gitalk-container')
-	document.write(id) //调试输出
+	//document.write(id) //调试输出
 </script>
 
 
@@ -418,11 +417,5 @@
   </script>
 
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ tex2jax: { inlineMath: [ ["$","$"], ["\\(","\\)"] ], skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], processEscapes: true } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(); for (var i = 0;
-    i
-    < all.length; ++i) all[i].SourceElement().parentNode.className +=' has-jax' ; }); </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML
-"></script>
 </body>
 </html>

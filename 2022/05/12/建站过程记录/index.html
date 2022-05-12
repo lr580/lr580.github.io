@@ -16,7 +16,7 @@
 <meta property="og:description" content="博客搭建记录我是如何搭建本博客的一些关键过程。 Hexo环境准备参考 安装 node ，检测安装成功： 12node --versionnpm --version 安装 hexo ： 1npm install -g hexo-cli # -g 全局安装 在某个新建文件夹里： 123hexo init 博客名cd 博客名npm install 创建一篇文章：(删除暴力删就行，修改也是) 1hexo">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-05-12T10:27:48.000Z">
-<meta property="article:modified_time" content="2022-05-12T12:24:29.662Z">
+<meta property="article:modified_time" content="2022-05-12T12:43:10.841Z">
 <meta property="article:author" content="lr580">
 <meta property="article:tag" content="心得">
 <meta name="twitter:card" content="summary">
@@ -204,13 +204,15 @@
 <p>当然根据需要，也可以嵌套在 if 里，如：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;% &#125; else if (theme.gitalk.enable) &#123; %&gt;</span><br><span class="line"> 放刚刚的东西</span><br><span class="line">&lt;% &#125;%&gt;</span><br></pre></td></tr></table></figure>
 <p>然后去到主题的 <code>_config.yml</code> ，添加：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">gitalk:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">ClientID:</span> <span class="string">6e8ca84614e8d6de868c</span> <span class="comment">#上文获得的ID</span></span><br><span class="line">  <span class="attr">ClientSecret:</span> <span class="string">bd819bxxxx</span> <span class="comment">#上文获得的secret</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">lr580.github.io</span> <span class="comment">#代码仓库</span></span><br><span class="line">  <span class="attr">owner:</span> <span class="string">lr580</span></span><br><span class="line">  <span class="attr">adminUser:</span> <span class="string">lr580</span></span><br><span class="line">  <span class="attr">labels:</span> <span class="comment"># issue 的标签</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">gitalk</span></span><br><span class="line">  <span class="attr">perPage:</span> <span class="number">15</span> <span class="comment"># 每页展示条数</span></span><br><span class="line">  <span class="attr">pagerDirection:</span> <span class="string">last</span> <span class="comment"># 排序方式是从旧到新（first）还是从新到旧（last）</span></span><br><span class="line">  <span class="attr">createIssueManually:</span> <span class="literal">false</span> <span class="comment">#如果当前页面没有相应的 isssue ，且登录的用户属于 admin，则会自动创建 issue。如果设置为 true，则显示一个初始化页面，创建 issue 需要点击 init 按钮。</span></span><br><span class="line">  <span class="attr">distractionFreeMode:</span> <span class="literal">false</span> <span class="comment">#是否启用快捷键(cmd|ctrl + enter) 提交评论.</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">gitalk:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">ClientID:</span> <span class="string">6e8ca84614e8d6de868c</span> <span class="comment">#上文获得的ID</span></span><br><span class="line">  <span class="attr">ClientSecret:</span> <span class="string">bd819bxxxx</span> <span class="comment">#上文获得的secret</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">lr580.github.io</span> <span class="comment">#代码仓库</span></span><br><span class="line">  <span class="attr">owner:</span> <span class="string">lr580</span></span><br><span class="line">  <span class="attr">adminUser:</span> <span class="string">lr580</span></span><br><span class="line">  <span class="attr">labels:</span> <span class="comment"># issue 的标签</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">gitalk</span></span><br><span class="line">  <span class="attr">perPage:</span> <span class="number">15</span> <span class="comment"># 每页展示条数</span></span><br><span class="line">  <span class="attr">pagerDirection:</span> <span class="string">last</span> <span class="comment"># 排序方式是从旧到新（first）还是从新到旧（last）</span></span><br><span class="line">  <span class="attr">createIssueManually:</span> <span class="literal">false</span> <span class="comment">#如果当前页面没有相应的 isssue ，且登录的用户属于 admin，则会自动创建 issue。如果设置为 true，则显示一个初始化页面，创建 issue 需要点击 init 按钮。</span></span><br><span class="line">  <span class="attr">distractionFreeMode:</span> <span class="literal">false</span> <span class="comment">#是否启用快捷键(cmd|ctrl + enter) 提交评论.</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">zh-CN</span></span><br></pre></td></tr></table></figure>
 <p>配好之后，重新生成页面即可：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>对代码仓库，要开启 issue (默认是开的)，其实直接用论坛代码仓库就好了。注意 issue 不能是 close 的，不然不能作评论。原理上一篇 issue 对应一个帖子的评论区。每条 issue 里的回复就是帖子的一条回复。</p>
+<p>注意，自己的 labels 是啥，那么新建 issue 就要加这个 labels (上文是 <code>gitalk</code>) ，且再加上 id ，即新建一个有两个 label (分别是：<code>gitalk</code> 和 md5 加密的玩意)的，这样创建一个 open issue 就等于手动开启了一个帖子的评论区。</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2022年05月12日 20:24</p>
+        <p>最后更新： 2022年05月12日 20:43</p>
         <p>原始链接： <a class="post-url" href="/2022/05/12/%E5%BB%BA%E7%AB%99%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" title="建站过程记录">https://lr580.github.io/2022/05/12/%E5%BB%BA%E7%AB%99%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</a></p>
         <footer>
             <a href="https://lr580.github.io">
@@ -332,11 +334,10 @@
         labels: 'gitalk'.split(',').filter(l => l),
         perPage: 15,
     	pagerDirection: 'last',
-    	createIssueManually: true,
-    	distractionFreeMode: false,
+		language: 'zh-CN',
     })
     gitalk.render('gitalk-container')
-	document.write(id) //调试输出
+	//document.write(id) //调试输出
 </script>
 
 
@@ -487,11 +488,5 @@
   </script>
 
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ tex2jax: { inlineMath: [ ["$","$"], ["\\(","\\)"] ], skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], processEscapes: true } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(); for (var i = 0;
-    i
-    < all.length; ++i) all[i].SourceElement().parentNode.className +=' has-jax' ; }); </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML
-"></script>
 </body>
 </html>
