@@ -52,7 +52,7 @@
         <div id="header-menu" class="header-menu-pos animated">
             <div class="header-menu-container">
                 <a href="/" class="left">
-                    <span class="site-title">lr580&#39;s Blog</span>
+                    <span class="site-title">lr580&#39;s 博客</span>
                 </a>
                 <nav id="header-menu-nav" class="right">
                     
@@ -64,11 +64,6 @@
                     <a  href="/archives">
                         <i class="fa fa-archive"></i>
                         <span>Archives</span>
-                    </a>
-                    
-                    <a  target="_blank" rel="noopener" href="https://github.com/lr580">
-                        <i class="fa fa-user"></i>
-                        <span>About</span>
                     </a>
                     
                 </nav>
@@ -87,14 +82,14 @@
                 <div id="header-title">
                     
                     <h2>
-                        lr580&#39;s Blog
+                        lr580&#39;s 博客
                     </h2>
                     
                 </div>
                 <div id="header-description">
                     
                     <h3>
-                        lr580的个人博客
+                        建设期，不定期更新。
                     </h3>
                     
                 </div>
@@ -105,8 +100,11 @@
                         <a title="Github" target="_blank" href="//github.com/lr580">
                             <i class="fa fa-github fa-2x"></i></a>
                     
-                        <a title="2277379149"  ">
+                        <a title="QQ2277379149"  ">
                             <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="洛谷博客" target="_blank" href="//lr580.blog.luogu.org">
+                            <i class="fa fa-user-o fa-2x"></i></a>
                     
                 </div>
             </nav>
@@ -1517,37 +1515,6 @@ sg(x)=mex\{sg(y)|y为x的直接儿子\}</script><p>注意到叶子节点(合法�
       
         
             
-<div class="page-reward">
-    <a id="rewardBtn" href="javascript:;">赏</a>
-</div>
-
-<div id="reward" class="post-modal reward-lay">
-    <a class="close" href="javascript:;" id="reward-close">×</a>
-    <span class="reward-title">
-        <i class="icon icon-quote-left"></i>
-        请我吃糖~
-        <i class="icon icon-quote-right"></i>
-    </span>
-    <div class="reward-content">
-        
-        <div class="reward-code">
-            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
-        </div>
-        <div class="reward-select">
-            
-            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
-                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
-            </label>
-            
-            
-            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
-                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
-            </label>
-            
-        </div>
-    </div>
-</div>
-
 
         
     </div>
@@ -1649,6 +1616,23 @@ sg(x)=mex\{sg(y)|y为x的直接儿子\}</script><p>注意到叶子节点(合法�
 
 
     
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                owner: 'lr580',
+                repo: 'lr580.github.io',
+                oauth: {
+                    client_id: '6e8ca84614e8d6de868c',
+                    client_secret: 'bd819b13650d089fa5e4708a9a5cd16bb122206d',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
 </section>
         
       </div>
@@ -1682,7 +1666,7 @@ sg(x)=mex\{sg(y)|y为x的直接儿子\}</script><p>注意到叶子节点(合法�
       animate: true,
       isHome: false,
       share: true,
-      reward: 1
+      reward: 0
   }
 </script>
 <div class="sidebar">
@@ -1724,12 +1708,6 @@ sg(x)=mex\{sg(y)|y为x的直接儿子\}</script><p>注意到叶子节点(合法�
             <li>
                 <a  href="/archives">
                     <i class="fa fa-archive"></i><span>Archives</span>
-                </a>
-            </li>
-            
-            <li>
-                <a  target="_blank" rel="noopener" href="https://github.com/lr580">
-                    <i class="fa fa-user"></i><span>About</span>
                 </a>
             </li>
             
