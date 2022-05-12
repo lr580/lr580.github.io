@@ -251,20 +251,28 @@
     
 	
 <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<div id="gitalk-container"></div>
+<div id="gitalk-container"></div> <!--评论区实际地方-->
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
 <script type="text/javascript">
+    var id = md5(window.location.pathname) //怕太长了
     var gitalk = new Gitalk({
         clientID: '6e8ca84614e8d6de868c',
         clientSecret: 'bd819b13650d089fa5e4708a9a5cd16bb122206d',
-        id: window.location.pathname,
-        repo: 'gitalkrepo',
+        id: id,
+        repo: 'lr580.github.io',
         owner: 'lr580',
-        admin: ['']
+        admin: [''], 
+        labels: 'gitalk'.split(',').filter(l => l),
+        perPage: 15,
+    	pagerDirection: 'last',
+    	createIssueManually: false,
+    	distractionFreeMode: false,
     })
     gitalk.render('gitalk-container')
+	//document.write(id) //调试输出
 </script>
-window.location.pathname
+
 
     
 </section>
