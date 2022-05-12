@@ -1450,7 +1450,7 @@ body {
 .post-toc-pos {
   z-index: 999;
   bottom: 77%;
-  left: calc(50% - 660px);
+  left: calc(47% - 660px);
   position: fixed;
 }
 .post-toc-pos .post-article {
@@ -1471,10 +1471,11 @@ body {
   opacity: 0;
 }
 .post-toc-wrap {
+  overflow-y: scroll;
   position: fixed;
   border-radius: 3px;
-  width: 200px;
-  max-height: 400px;
+  width: 220px;
+  max-height: 500px;
   color: #313131;
 }
 .post-toc-wrap.fixed {

@@ -337,45 +337,7 @@ E=\sum_{k=1}^{\infty}(p(1-p)^{k-1})\cdot k</script><p>可以看成是一个等�
 <p>在某一时刻，我们应当选择买，当且仅当下一次抽取的代价（由已经抽到的物品数确定）大于剩余物品的平均价格（等于的话则任意）</p>
 <p>可以证明，随着时间的推移，抽取代价的增速一定不低于剩余物品均价的增速。这说明从抽到买的“临界点”只有一个，进一步验证了先前结论</p>
 <p>最后，我们枚举所有可能的局面（即已经拥有的元素集合），算出这种局面出现的概率（已有元素的排列方案数除以总方案数），乘上当前局面最优决策的代价（由拥有元素个数和剩余物品总价确定），再加起来即可。这个过程可以用背包式的 DP 优化，即可通过本题</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-typedef double db;
-typedef long long ll;
-using namespace std;
-ll n, sum;
-double ans, x, f[105][10010]; //随机抽/买,还剩i个,价格和是j的概率是f[i][j]
-signed main()
-&#123;
-    scanf(&quot;%lld%lf&quot;, &amp;n, &amp;x);
-    f[0][0] = 1; //一个不剩
-    for (ll i = 1, a; i &lt;= n; i++)
-    &#123; //本质是组合数递推(同价格j的合并成一项),这么算精度误差更小
-        scanf(&quot;%lld&quot;, &amp;a);
-        sum += a; // sum是前i个物品价格和
-        for (ll j = i; j &gt;= 1; j--)
-        &#123;
-            for (ll k = sum; k &gt;= a; k--)
-            &#123;
-                f[j][k] += f[j - 1][k - a] * j / (1.0 * (n - j + 1));
-                //已经有j-1个物品,还剩n-j+1个物品,
-                //比如f[1][a_1]=1*1/n (a_i都一样)
-                // f[2][a_1+a_2]=f[1][a_1]*2/(n-1)=C(n,2)
-            &#125;
-        &#125;
-    &#125;
-    for (ll i = 1; i &lt;= n; i++) //还剩有i个，当前有n-i个物品
-    &#123;
-        for (ll j = 0; j &lt;= sum; j++) //价格和
-        &#123;
-            // if (f[i][j] != 0.0)
-            ans += f[i][j] * min(x / 2.0 * (1.0 * n / i - 1.0) + x, 1.0 * j / i);
-            //抽取的价格是f_i
-            //购买的平均价格是j/i
-        &#125;
-    &#125;
-    printf(&quot;%.12lf\n&quot;, ans);
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">double</span> db;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line">ll n, sum;</span><br><span class="line"><span class="type">double</span> ans, x, f[<span class="number">105</span>][<span class="number">10010</span>]; <span class="comment">//随机抽/买,还剩i个,价格和是j的概率是f[i][j]</span></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lf&quot;</span>, &amp;n, &amp;x);</span><br><span class="line">    f[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">//一个不剩</span></span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>, a; i &lt;= n; i++)</span><br><span class="line">    &#123; <span class="comment">//本质是组合数递推(同价格j的合并成一项),这么算精度误差更小</span></span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;a);</span><br><span class="line">        sum += a; <span class="comment">// sum是前i个物品价格和</span></span><br><span class="line">        <span class="keyword">for</span> (ll j = i; j &gt;= <span class="number">1</span>; j--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (ll k = sum; k &gt;= a; k--)</span><br><span class="line">            &#123;</span><br><span class="line">                f[j][k] += f[j - <span class="number">1</span>][k - a] * j / (<span class="number">1.0</span> * (n - j + <span class="number">1</span>));</span><br><span class="line">                <span class="comment">//已经有j-1个物品,还剩n-j+1个物品,</span></span><br><span class="line">                <span class="comment">//比如f[1][a_1]=1*1/n (a_i都一样)</span></span><br><span class="line">                <span class="comment">// f[2][a_1+a_2]=f[1][a_1]*2/(n-1)=C(n,2)</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; i++) <span class="comment">//还剩有i个，当前有n-i个物品</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">0</span>; j &lt;= sum; j++) <span class="comment">//价格和</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// if (f[i][j] != 0.0)</span></span><br><span class="line">            ans += f[i][j] * <span class="built_in">min</span>(x / <span class="number">2.0</span> * (<span class="number">1.0</span> * n / i - <span class="number">1.0</span>) + x, <span class="number">1.0</span> * j / i);</span><br><span class="line">            <span class="comment">//抽取的价格是f_i</span></span><br><span class="line">            <span class="comment">//购买的平均价格是j/i</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%.12lf\n&quot;</span>, ans);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="随机函数"><a href="#随机函数" class="headerlink" title="随机函数"></a>随机函数</h3><h4 id="随机数"><a href="#随机数" class="headerlink" title="随机数"></a>随机数</h4><p>在满足均匀分布、互相独立等统计学特征随机数列里任取一个元素，该元素称为随机数。用计算机生成的满足上述统计学特征的数称为伪随机数(下文简称为随机数)。</p>
 <blockquote>
 <p>如果一道题的数据随机生成，我们可能可以利用随机数据的性质解决它。而在有些情况下，即使数据并非随机生成，我们也可以通过随机化来给其赋予随机数据的某些特性，从而帮助解决问题</p>
@@ -405,74 +367,11 @@ signed main()
 <ul>
 <li>例子 1 ：普通使用</li>
 </ul>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-random_device divc;
-mt19937 mt(divc());
-uniform_int_distribution&lt;ll&gt; range1(1, 10000000);
-ll a, b;
-signed main() // SCNUOJ1001
-&#123;
-    sc(a), sc(b);
-    while (true)
-    &#123;
-        ll c = range1(mt);
-        if (a + b == c)
-        &#123;
-            printf(&quot;%lld&quot;, c);
-            return 0;
-        &#125;
-    &#125;
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line">random_device divc;</span><br><span class="line"><span class="function">mt19937 <span class="title">mt</span><span class="params">(divc())</span></span>;</span><br><span class="line"><span class="function">uniform_int_distribution&lt;ll&gt; <span class="title">range1</span><span class="params">(<span class="number">1</span>, <span class="number">10000000</span>)</span></span>;</span><br><span class="line">ll a, b;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> <span class="comment">// SCNUOJ1001</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">sc</span>(a), <span class="built_in">sc</span>(b);</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ll c = <span class="built_in">range1</span>(mt);</span><br><span class="line">        <span class="keyword">if</span> (a + b == c)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>, c);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>例子2：负数、实数和 long long</li>
 </ul>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-random_device rd;
-mt19937 mt(rd());
-signed main()
-&#123;
-    // for (ll i = 1; i &lt;= 5; ++i)&#123;printf(&quot;%lld &quot;, mt()); &#125;
-    uniform_int_distribution&lt;ll&gt; range1(-5, 5);
-    map&lt;ll, ll&gt; bin;
-    for (ll i = 1; i &lt;= 10000000; ++i)
-    &#123;
-        bin[range1(mt)]++;
-    &#125;
-    for (auto &amp;i : bin) //检验均匀分布
-    &#123;
-        printf(&quot;%lld %lld\n&quot;, i.first, i.second);
-    &#125;
-
-    uniform_real_distribution&lt;double&gt; range2(0, 1);
-    double avg = 0;
-    for (ll i = 1; i &lt;= 1000000; ++i)
-    &#123;
-        double v = range2(mt);
-        avg += v;
-        if (i &lt; 10)
-        &#123;
-            printf(&quot;%lf &quot;, v);
-        &#125;
-    &#125;
-    printf(&quot;\naverage: %lf\n&quot;, avg / 1000000);
-
-    uniform_int_distribution&lt;ll&gt; range3(1e17, 1e18);
-    for (ll i = 1; i &lt;= 30; ++i)
-    &#123;
-        printf(&quot;%lld\n&quot;, range3(mt));
-    &#125;
-    printf(&quot;\n&quot;);
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line">random_device rd;</span><br><span class="line"><span class="function">mt19937 <span class="title">mt</span><span class="params">(rd())</span></span>;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// for (ll i = 1; i &lt;= 5; ++i)&#123;printf(&quot;%lld &quot;, mt()); &#125;</span></span><br><span class="line">    <span class="function">uniform_int_distribution&lt;ll&gt; <span class="title">range1</span><span class="params">(<span class="number">-5</span>, <span class="number">5</span>)</span></span>;</span><br><span class="line">    map&lt;ll, ll&gt; bin;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= <span class="number">10000000</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        bin[<span class="built_in">range1</span>(mt)]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;i : bin) <span class="comment">//检验均匀分布</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld %lld\n&quot;</span>, i.first, i.second);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">uniform_real_distribution&lt;<span class="type">double</span>&gt; <span class="title">range2</span><span class="params">(<span class="number">0</span>, <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="type">double</span> avg = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= <span class="number">1000000</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">double</span> v = <span class="built_in">range2</span>(mt);</span><br><span class="line">        avg += v;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; <span class="number">10</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lf &quot;</span>, v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\naverage: %lf\n&quot;</span>, avg / <span class="number">1000000</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function">uniform_int_distribution&lt;ll&gt; <span class="title">range3</span><span class="params">(<span class="number">1e17</span>, <span class="number">1e18</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= <span class="number">30</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">range3</span>(mt));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="随机打乱"><a href="#随机打乱" class="headerlink" title="随机打乱"></a>随机打乱</h4><blockquote>
 <p>一种朴素实现思路：要打乱长为 $n$ 的序列，可以随机选取 $n$ 次序列内的两个元素 $i,j(i\neq j)$ ，交换它们，复杂度 $O(n)$ </p>
 </blockquote>
@@ -488,27 +387,7 @@ signed main()
 </ul>
 <p>使用 <code>shuffle</code> ，语法： <code>shuffle(first, last, myrand)</code> ，参数分别是首迭代器、尾迭代器(类比 <code>sort</code> 的参数)和随机数生成器，生成器通常用 <code>mt19937</code> </p>
 <p>使用示例：</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-ll v[5050], n = 10, a, b;
-signed main()
-&#123;
-    random_device rd;
-    mt19937 mt(rd());
-    for (ll i = 1; i &lt;= n; ++i)
-    &#123;
-        v[i] = i;
-    &#125;
-    shuffle(v + 1, v + 1 + n, mt);
-    for (ll i = 1; i &lt;= n; ++i)
-    &#123;
-        printf(&quot;%lld &quot;, v[i]);
-    &#125;
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line">ll v[<span class="number">5050</span>], n = <span class="number">10</span>, a, b;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    random_device rd;</span><br><span class="line">    <span class="function">mt19937 <span class="title">mt</span><span class="params">(rd())</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        v[i] = i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">shuffle</span>(v + <span class="number">1</span>, v + <span class="number">1</span> + n, mt);</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld &quot;</span>, v[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="随机化技巧"><a href="#随机化技巧" class="headerlink" title="随机化技巧"></a>随机化技巧</h3><h4 id="理论依据"><a href="#理论依据" class="headerlink" title="理论依据"></a>理论依据</h4><p>随机化有时是题目的正解、或者是正解的一部分，有时是不错的骗分技巧。</p>
 <p>假设全体解构成的全集是 $U$ ，其中子集 $S$ 的每个解都是正解( $S$ 为空集代表无解；只有一个元素代表唯一解；否则代表一题多解)</p>
 <p>假设构造出并判断一个解是否是正解的复杂度是 $X$ 。例如，当解是一个值是，可能 $X=O(1)$ ；是一个数列，可能是 $X=O(n)$ ；是一个矩阵可能 $X=O(nm)$ 。</p>
@@ -537,29 +416,7 @@ P_0=1-(1-P)^n</script><p>也就是 $1$ 减去 $n$ 次里每次都没找到的概
 <p>全集是 $U=\{x|x\in Z,0\le x\le 200\}$ ，$S=\{a+b\}$ ，那么随机取一个值， $P=\dfrac1{200}$ ， 令 $n=200$ ，计算得 $P_0\approx 0.633$ ，也就是说随便找 $200$ 次只能有 $0.633$ 概率找到 (即使枚举 $201$ 次都能必然 AC)，设 $t=10$ ，那么 $P_0^t\approx 0.01$，可以继续放大 $n$ ，例如发现 $n=1000$ 时， $P_0\approx0.9933$ ，$P_0^t\approx 0.93$ ，此时有 $0.93$ 把握 AC 这道题，</p>
 <p>显然数学法 $O(1)$ (<code>cout&lt;&lt;a+b</code>) ，枚举 $O(a+b)$ ，随机化 $O(n)$ ，这里设 $n=1000$ </p>
 <p>如：</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-ll a, b;
-signed main()
-&#123;
-    random_device rd;
-    mt19937 mt(rd());
-    uniform_int_distribution&lt;ll&gt; rng(0, 200);
-    sc(a), sc(b);
-    for (ll i = 1; i &lt;= 1000; ++i)
-    &#123;
-        ll c = rng(mt);
-        if (a + b == c)
-        &#123;
-            printf(&quot;%lld&quot;, c);
-            break;
-        &#125;
-    &#125;
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line">ll a, b;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    random_device rd;</span><br><span class="line">    <span class="function">mt19937 <span class="title">mt</span><span class="params">(rd())</span></span>;</span><br><span class="line">    <span class="function">uniform_int_distribution&lt;ll&gt; <span class="title">rng</span><span class="params">(<span class="number">0</span>, <span class="number">200</span>)</span></span>;</span><br><span class="line">    <span class="built_in">sc</span>(a), <span class="built_in">sc</span>(b);</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= <span class="number">1000</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        ll c = <span class="built_in">rng</span>(mt);</span><br><span class="line">        <span class="keyword">if</span> (a + b == c)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>, c);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>(while 写法见上文随机函数例子 $1$ ，把 <code>range1</code> 值域改成 $0,200$ 即可)</p>
 <h5 id="随机化正解"><a href="#随机化正解" class="headerlink" title="随机化正解"></a>随机化正解</h5><p>通过上面的例子理解了随机化流程后，来看一道真实的随机化例题：(CCPC决赛真题，可能是铜/银牌题)(SCNUOJ有这题，见 <code>SCNUOJ1480</code>)</p>
 <p>题意简译：平面上由$n$个不重合的点。如果三点构成三角形，可以删掉这三点。求最后最少会剩下多少个点。$1\le n,\sum n\le2\times 10^5,0\le x,y\le10^9$ ，多组样例。</p>
@@ -576,50 +433,7 @@ signed main()
 \dfrac{C_{\frac{2n}3}^2}{C_n^2}=\dfrac{2(2n-3)}{9(n-1)}\approx\dfrac{2(2n-2)}{9(n-1)}\approx\dfrac49</script><p> 即 $P=\dfrac49$ ，那么 $P_0=1-(\dfrac59)^n$ ，设 $n=20$ ，求得 $P_0\approx0.9999922$ ，所以每次询问只有 $1-P_0=8\times10^{-6}$ 的概率求不出，即使 $P_0^{10^5}$ 也有 $0.456$ </p>
 <p>因此，可以设 $n=20$ ，那么 $X=O(2\times10^5)$ ，随机化的复杂度是  $O(20X)$ </p>
 <p>参考代码：(前置知识：计算几何之用叉乘求是否共线)</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-#define mn 200010
-ll n, x[mn], y[mn], tri, cols, a, b, cnt;
-ll cross(ll ax, ll ay, ll bx, ll by)
-&#123;
-    return ax * by - ay * bx;
-&#125;
-random_device rd;
-mt19937 mt(rd());
-signed main()
-&#123;
-    while (EOF != scanf(&quot;%lld&quot;, &amp;n))
-    &#123;
-        uniform_int_distribution&lt;ll&gt; dist(0, n - 1);
-        for (ll i = 0; i &lt; n; ++i)
-        &#123;
-            sc(x[i]), sc(y[i]);
-        &#125;
-        tri = cols = 0;
-        for (ll h = 0; n &gt; 1 &amp;&amp; h &lt; 20; ++h)
-        &#123;
-            do
-            &#123;
-                a = dist(mt), b = dist(mt);
-            &#125; while (a == b); //任选两个点
-            cnt = 0;
-            for (ll i = 0; i &lt; n; ++i) //选第三个点，判断是否跟其共线
-            &#123;
-                cnt += (cross(x[i] - x[a], y[i] - y[a], x[i] - x[b], y[i] - y[b]) == 0);
-                // cols+=暴毙一次
-            &#125;
-            cols = max(cols, cnt); //最大共线组
-            // printf(&quot;&lt;%lld\n&quot;, cnt);
-        &#125;
-        //最大共线组外有n-cols个三角形，它们可以跟最大共线组组成三角形，最多组成n-cols个；而本身最多可能会有n/3个三角形
-        tri = min(n / 3, n - cols);
-        printf(&quot;%lld\n&quot;, n - 3 * tri);
-    &#125;
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mn 200010</span></span><br><span class="line">ll n, x[mn], y[mn], tri, cols, a, b, cnt;</span><br><span class="line"><span class="function">ll <span class="title">cross</span><span class="params">(ll ax, ll ay, ll bx, ll by)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ax * by - ay * bx;</span><br><span class="line">&#125;</span><br><span class="line">random_device rd;</span><br><span class="line"><span class="function">mt19937 <span class="title">mt</span><span class="params">(rd())</span></span>;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (EOF != <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;n))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">uniform_int_distribution&lt;ll&gt; <span class="title">dist</span><span class="params">(<span class="number">0</span>, n - <span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (ll i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">sc</span>(x[i]), <span class="built_in">sc</span>(y[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        tri = cols = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (ll h = <span class="number">0</span>; n &gt; <span class="number">1</span> &amp;&amp; h &lt; <span class="number">20</span>; ++h)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">do</span></span><br><span class="line">            &#123;</span><br><span class="line">                a = <span class="built_in">dist</span>(mt), b = <span class="built_in">dist</span>(mt);</span><br><span class="line">            &#125; <span class="keyword">while</span> (a == b); <span class="comment">//任选两个点</span></span><br><span class="line">            cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (ll i = <span class="number">0</span>; i &lt; n; ++i) <span class="comment">//选第三个点，判断是否跟其共线</span></span><br><span class="line">            &#123;</span><br><span class="line">                cnt += (<span class="built_in">cross</span>(x[i] - x[a], y[i] - y[a], x[i] - x[b], y[i] - y[b]) == <span class="number">0</span>);</span><br><span class="line">                <span class="comment">// cols+=暴毙一次</span></span><br><span class="line">            &#125;</span><br><span class="line">            cols = <span class="built_in">max</span>(cols, cnt); <span class="comment">//最大共线组</span></span><br><span class="line">            <span class="comment">// printf(&quot;&lt;%lld\n&quot;, cnt);</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//最大共线组外有n-cols个三角形，它们可以跟最大共线组组成三角形，最多组成n-cols个；而本身最多可能会有n/3个三角形</span></span><br><span class="line">        tri = <span class="built_in">min</span>(n / <span class="number">3</span>, n - cols);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, n - <span class="number">3</span> * tri);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="随机化骗分"><a href="#随机化骗分" class="headerlink" title="随机化骗分"></a>随机化骗分</h5><p>上面讲了如何用随机化做正解，再来看一道例题 (第46届ICPC广州站-H题(也就是华师主办的这场))(<a target="_blank" rel="noopener" href="https://codeforces.com/gym/103415/problem/H">补题链接</a>)，看一下如何用随机化骗分：</p>
 <p>注：这是这场比赛的第二道<strong>签到题</strong>，所以除了随机化解法外，强烈推荐您还需要掌握数论正解</p>
 <p>题意简述：给定 $t(1\le t\le10^5)$ ，给定三个整数 $a,b,c(0\le a,b,c\le10^9)$ ，请构造三个整数 $x,y,z(1\le x,y,z\le10^{18})$ 使得 $x\bmod y=a,y\bmod z=b,z\bmod x=c$ ，如果构造不成功就 <code>NO</code> ，成功 <code>YES</code> 并输出答案</p>
@@ -630,98 +444,7 @@ signed main()
 <p>注意到有 $10^5$ 次询问，需要猜三轮，可以控制枚举次数，每次询问枚举 $3\cdot 8\cdot8\approx192$ 次，常数较小。复杂度 $O(192t)$ 。</p>
 <p>注意需要特判 $a=b=c$ 时，根据样例可知， $a=0$ 可以构造 $x=y=z=1$ ，这个通过随机是枚举不出来的(因为此时 $|S|=1$ )</p>
 <p>参考代码：</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-random_device rd;
-mt19937 mt(rd());
-uniform_int_distribution&lt;ll&gt; dist(0, 1 &lt;&lt; 15);
-ll t, a, b, c, rt = 8, u, v, w, x, y, z, suc, lim = 1e18;
-bool check()
-&#123;
-    if (x &gt; lim || y &gt; lim || z &gt; lim || x &lt;= 0 || y &lt;= 0 || z &lt;= 0)
-        return false;
-    return (x % y == a) &amp;&amp; (y % z == b) &amp;&amp; (z % x == c);
-&#125;
-void solve()
-&#123;
-    w = 0, x = a;
-    for (ll i = 0; i &lt; rt; ++i)
-    &#123;
-        u = dist(mt);
-        z = u * x + c;
-        for (ll j = 0; j &lt; rt; ++j)
-        &#123;
-            v = dist(mt);
-            y = v * z + b;
-            if (check())
-            &#123;
-                suc = 1;
-                return;
-            &#125;
-        &#125;
-    &#125;
-
-    v = 0, y = b;
-    for (ll i = 0; i &lt; rt; ++i)
-    &#123;
-        w = dist(mt);
-        x = w * y + a;
-        for (ll j = 0; j &lt; rt; ++j)
-        &#123;
-            u = dist(mt);
-            z = u * x + c;
-            if (check())
-            &#123;
-                suc = 1;
-                return;
-            &#125;
-        &#125;
-    &#125;
-
-    u = 0, z = c;
-    for (ll i = 0; i &lt; rt; ++i)
-    &#123;
-        v = dist(mt);
-        y = v * z + b;
-        for (ll j = 0; j &lt; rt; ++j)
-        &#123;
-            w = dist(mt);
-            x = w * y + a;
-            if (check())
-            &#123;
-                suc = 1;
-                return;
-            &#125;
-        &#125;
-    &#125;
-&#125;
-signed main()
-&#123;
-    sc(t);
-    while (t--)
-    &#123;
-        sc(a), sc(b), sc(c);
-        if (a == b &amp;&amp; b == c &amp;&amp; a == 0)
-        &#123;
-            printf(&quot;YES\n1 1 1\n&quot;);
-            continue;
-        &#125;
-        suc = 0;
-        solve();
-        if (suc)
-        &#123;
-            printf(&quot;YES\n%lld %lld %lld\n&quot;, x, y, z);
-        &#125;
-        else
-        &#123;
-            printf(&quot;NO\n&quot;);
-        &#125;
-    &#125;
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line">random_device rd;</span><br><span class="line"><span class="function">mt19937 <span class="title">mt</span><span class="params">(rd())</span></span>;</span><br><span class="line"><span class="function">uniform_int_distribution&lt;ll&gt; <span class="title">dist</span><span class="params">(<span class="number">0</span>, <span class="number">1</span> &lt;&lt; <span class="number">15</span>)</span></span>;</span><br><span class="line">ll t, a, b, c, rt = <span class="number">8</span>, u, v, w, x, y, z, suc, lim = <span class="number">1e18</span>;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt; lim || y &gt; lim || z &gt; lim || x &lt;= <span class="number">0</span> || y &lt;= <span class="number">0</span> || z &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> (x % y == a) &amp;&amp; (y % z == b) &amp;&amp; (z % x == c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    w = <span class="number">0</span>, x = a;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">0</span>; i &lt; rt; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        u = <span class="built_in">dist</span>(mt);</span><br><span class="line">        z = u * x + c;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">0</span>; j &lt; rt; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            v = <span class="built_in">dist</span>(mt);</span><br><span class="line">            y = v * z + b;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">check</span>())</span><br><span class="line">            &#123;</span><br><span class="line">                suc = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    v = <span class="number">0</span>, y = b;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">0</span>; i &lt; rt; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        w = <span class="built_in">dist</span>(mt);</span><br><span class="line">        x = w * y + a;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">0</span>; j &lt; rt; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            u = <span class="built_in">dist</span>(mt);</span><br><span class="line">            z = u * x + c;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">check</span>())</span><br><span class="line">            &#123;</span><br><span class="line">                suc = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    u = <span class="number">0</span>, z = c;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">0</span>; i &lt; rt; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        v = <span class="built_in">dist</span>(mt);</span><br><span class="line">        y = v * z + b;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">0</span>; j &lt; rt; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            w = <span class="built_in">dist</span>(mt);</span><br><span class="line">            x = w * y + a;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">check</span>())</span><br><span class="line">            &#123;</span><br><span class="line">                suc = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">sc</span>(t);</span><br><span class="line">    <span class="keyword">while</span> (t--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">sc</span>(a), <span class="built_in">sc</span>(b), <span class="built_in">sc</span>(c);</span><br><span class="line">        <span class="keyword">if</span> (a == b &amp;&amp; b == c &amp;&amp; a == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;YES\n1 1 1\n&quot;</span>);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        suc = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">        <span class="keyword">if</span> (suc)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;YES\n%lld %lld %lld\n&quot;</span>, x, y, z);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;NO\n&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>如何用数论方法解这道题：</p>
 <p>由于 $x\bmod y=a,y\bmod z=b,z\bmod x=c$</p>
@@ -740,59 +463,7 @@ u >\dfrac{b-c}{a}\Rightarrow u > \lceil\dfrac{b-c}a\rceil</script><p>所以可�
 v > \dfrac{a-b}{z}\Rightarrow v > \lceil\dfrac{a-b}z\rceil</script><p>可以设 $v=\lceil\dfrac{a-b}z\rceil+1$ ，并求出 $y$ ，自此全部值算出来了。</p>
 <p>如果 $a &gt; c$ 不满足，寻求 $c &gt; b$ 构造 $z=c$ 或 $b &gt; a$ 构造 $y=b$ 。枚举可知，$3!$ 种排列必然满足其一关系。都不满足的只有 $a=b=c$ 这种情况，显然若都是 $0$ ，直接输出 $1,1,1$ 。否则，构造不出，因为循环依赖且余数等于除数，是不可能的。这也表明除非 $a=b=c$ ，否则恒有解(可以显然推断出不会超过 $10^{18}$ )</p>
 <p>复杂度 $O(t)$ ，参考程序：</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-ll t, a, b, c, u, v, w, x, y, z;
-ll ceil(ll a, ll b) &#123; return (a + b - 1) / b; &#125;
-signed main()
-&#123;
- sc(t);
- while (t--)
- &#123;
-     sc(a), sc(b), sc(c);
-     if (a == b &amp;&amp; b == c)
-     &#123;
-         printf(a == 0 ? &quot;YES\n1 1 1\n&quot; : &quot;NO\n&quot;);
-         continue;
-     &#125;
-     if (a &gt; c)
-     &#123;
-         w = 0;
-         x = w * y + a;
-         u = ceil(b - c, x) + 1;
-         z = u * x + c;
-         v = ceil(a - b, z) + 1;
-         y = v * z + b;
-     &#125;
-     else if (c &gt; b)
-     &#123;
-         u = 0;
-         z = u * x + c;
-         v = ceil(a - b, z) + 1;
-         y = v * z + b;
-         w = ceil(c - a, y) + 1;
-         x = w * y + a;
-     &#125;
-     else if (b &gt; a)
-     &#123;
-         v = 0;
-         y = v * z + b;
-         w = ceil(c - a, y) + 1;
-         x = w * y + a;
-         u = ceil(b - c, x) + 1;
-         z = u * x + c;
-     &#125;
-     else //不可能进else
-     &#123;
-         assert(1 == 0);
-     &#125;
-     printf(&quot;YES\n%lld %lld %lld\n&quot;, x, y, z);
- &#125;
- return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line">ll t, a, b, c, u, v, w, x, y, z;</span><br><span class="line"><span class="function">ll <span class="title">ceil</span><span class="params">(ll a, ll b)</span> </span>&#123; <span class="keyword">return</span> (a + b - <span class="number">1</span>) / b; &#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="built_in">sc</span>(t);</span><br><span class="line"> <span class="keyword">while</span> (t--)</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="built_in">sc</span>(a), <span class="built_in">sc</span>(b), <span class="built_in">sc</span>(c);</span><br><span class="line">     <span class="keyword">if</span> (a == b &amp;&amp; b == c)</span><br><span class="line">     &#123;</span><br><span class="line">         <span class="built_in">printf</span>(a == <span class="number">0</span> ? <span class="string">&quot;YES\n1 1 1\n&quot;</span> : <span class="string">&quot;NO\n&quot;</span>);</span><br><span class="line">         <span class="keyword">continue</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (a &gt; c)</span><br><span class="line">     &#123;</span><br><span class="line">         w = <span class="number">0</span>;</span><br><span class="line">         x = w * y + a;</span><br><span class="line">         u = <span class="built_in">ceil</span>(b - c, x) + <span class="number">1</span>;</span><br><span class="line">         z = u * x + c;</span><br><span class="line">         v = <span class="built_in">ceil</span>(a - b, z) + <span class="number">1</span>;</span><br><span class="line">         y = v * z + b;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">else</span> <span class="keyword">if</span> (c &gt; b)</span><br><span class="line">     &#123;</span><br><span class="line">         u = <span class="number">0</span>;</span><br><span class="line">         z = u * x + c;</span><br><span class="line">         v = <span class="built_in">ceil</span>(a - b, z) + <span class="number">1</span>;</span><br><span class="line">         y = v * z + b;</span><br><span class="line">         w = <span class="built_in">ceil</span>(c - a, y) + <span class="number">1</span>;</span><br><span class="line">         x = w * y + a;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">else</span> <span class="keyword">if</span> (b &gt; a)</span><br><span class="line">     &#123;</span><br><span class="line">         v = <span class="number">0</span>;</span><br><span class="line">         y = v * z + b;</span><br><span class="line">         w = <span class="built_in">ceil</span>(c - a, y) + <span class="number">1</span>;</span><br><span class="line">         x = w * y + a;</span><br><span class="line">         u = <span class="built_in">ceil</span>(b - c, x) + <span class="number">1</span>;</span><br><span class="line">         z = u * x + c;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">else</span> <span class="comment">//不可能进else</span></span><br><span class="line">     &#123;</span><br><span class="line">         <span class="built_in">assert</span>(<span class="number">1</span> == <span class="number">0</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="built_in">printf</span>(<span class="string">&quot;YES\n%lld %lld %lld\n&quot;</span>, x, y, z);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <h3 id="随机搜索"><a href="#随机搜索" class="headerlink" title="随机搜索"></a>随机搜索</h3><p>在之前的课程里，提到过一种随机搜索的方法：蒙特卡罗法 (见 <code>计算几何</code> )。这里再介绍一种新的随机搜索方法——模拟退火，以及它的前身：爬山算法。</p>
 <h4 id="爬山算法"><a href="#爬山算法" class="headerlink" title="爬山算法"></a>爬山算法</h4><p>作用：以较高概率求最优值 (不保证一定能找到)</p>
@@ -801,23 +472,10 @@ signed main()
 </blockquote>
 <p>爬山算法通常不是随机化算法。将爬山算法引入熵值随机化后的算法称为模拟退火。</p>
 <p>假设当前值域是 $U$ ，一开始位于值域的某个位置 $x$ ，定义变量初始“温度” $t$ ，降温系数 $C$ ，最低温度 $t_0$，设已知最优解是 $x_0$ ，定义算法过程：</p>
-<pre><code class="lang-c++">设置一个初始值 x (比如设为中点或随机数), 令 x0 = x;
-设置 t, C, t0;
-while (t &gt; t0)
-&#123;
-    在 x 的一个范围(t越大,范围越大)内找一个新解 x1;
-    x = x1;
-    if (新解 x1 比 x0 更优)
-    &#123;
-        x0 = x1;
-    &#125;
-    t *= C; //降温
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">设置一个初始值 <span class="built_in">x</span> (比如设为中点或随机数), 令 x0 = x;</span><br><span class="line">设置 t, C, t0;</span><br><span class="line"><span class="keyword">while</span> (t &gt; t0)</span><br><span class="line">&#123;</span><br><span class="line">    在 x 的一个范围(t越大,范围越大)内找一个新解 x1;</span><br><span class="line">    x = x1;</span><br><span class="line">    <span class="keyword">if</span> (新解 x1 比 x0 更优)</span><br><span class="line">    &#123;</span><br><span class="line">        x0 = x1;</span><br><span class="line">    &#125;</span><br><span class="line">    t *= C; <span class="comment">//降温</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在范围内找新解的实现方法多样，比如偏移 $\pm t$  距离(正的更优走正的，负的更优走负的)，偏移随机距离(与 $t$ 相关)(进行随机偏移的话准确性很低)，或者某些题目可以直接求出究竟是往哪偏。可以看出每次循环时 $t$ 越来越少，下降幅度越来越低，所以在广范围遍历得少，窄范围遍历得多</p>
 <p>另一种实现是：(注：这种实现存在风险，不是单峰函数谨慎使用)</p>
-<pre><code class="lang-c++">在 x0 的一个范围.(t越大,范围越大)内找一个新解 x1;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在 x0 的一个范围.(t越大,范围越大)内找一个新解 x1;</span><br></pre></td></tr></table></figure>
 <p>如果想要进行随机偏移，推荐使用这一种实现。通常来说，如果明确知道 $U$ 是单峰函数(也有可能是单峰多元函数，比如图像是球的上/下半部分)，但三分困难(三分简单爬山不如三分)，可以考虑爬山算法，并用该实现方法。</p>
 <p>区别在于，如果每次只从最优解出发，有可能更容易陷入局部最优解。</p>
 <p><img src="/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220422154138536.png" alt="image-20220422154138536"></p>
@@ -831,77 +489,11 @@ while (t &gt; t0)
 </blockquote>
 <p>爬山思路：显然 $y=k-x$ ，所以只有一个未知数。</p>
 <p>根据复杂度计算公式和 $t$ 可知，最多枚举大约几百次。直观来看，可以设中点是初始值，初温是定义域半长，那么计算得 $C\approx0.9$ ：</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-typedef long long ll;
-typedef double db;
-ll p, a, b, q;
-db k, t = 0.5, d, minx = 0.5, nowx = 0.5;
-db f(db x) // assume k=1
-&#123;
-    return sqrt(p - a + x * x) + sqrt(p - b + (k - x) * (k - x));
-&#125;
-signed main()
-&#123;
-    scanf(&quot;%lld%lld%lld%lld&quot;, &amp;p, &amp;a, &amp;b, &amp;q);
-    while (q--)
-    &#123;
-        scanf(&quot;%lf&quot;, &amp;k);
-        minx = nowx = k / 2;
-        t = k / 2;
-        while (t &gt; 1e-6) // t是温度参数
-        &#123;
-            db x1 = nowx + t;
-            db x2 = nowx - t;
-            db newx = f(x1) &lt; f(x2) ? x1 : x2;
-            nowx = newx;
-            if (f(newx) &lt; f(minx))
-            &#123;
-                minx = newx;
-            &#125;
-            t *= 0.9; // 降温系数
-        &#125;
-        printf(&quot;%lf %lf\n&quot;, minx, (k - minx));
-    &#125;
-    return 0;
-&#125;
-</code></pre>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">double</span> db;</span><br><span class="line">ll p, a, b, q;</span><br><span class="line">db k, t = <span class="number">0.5</span>, d, minx = <span class="number">0.5</span>, nowx = <span class="number">0.5</span>;</span><br><span class="line"><span class="function">db <span class="title">f</span><span class="params">(db x)</span> <span class="comment">// assume k=1</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sqrt</span>(p - a + x * x) + <span class="built_in">sqrt</span>(p - b + (k - x) * (k - x));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld%lld%lld&quot;</span>, &amp;p, &amp;a, &amp;b, &amp;q);</span><br><span class="line">    <span class="keyword">while</span> (q--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%lf&quot;</span>, &amp;k);</span><br><span class="line">        minx = nowx = k / <span class="number">2</span>;</span><br><span class="line">        t = k / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">while</span> (t &gt; <span class="number">1e-6</span>) <span class="comment">// t是温度参数</span></span><br><span class="line">        &#123;</span><br><span class="line">            db x1 = nowx + t;</span><br><span class="line">            db x2 = nowx - t;</span><br><span class="line">            db newx = <span class="built_in">f</span>(x1) &lt; <span class="built_in">f</span>(x2) ? x1 : x2;</span><br><span class="line">            nowx = newx;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">f</span>(newx) &lt; <span class="built_in">f</span>(minx))</span><br><span class="line">            &#123;</span><br><span class="line">                minx = newx;</span><br><span class="line">            &#125;</span><br><span class="line">            t *= <span class="number">0.9</span>; <span class="comment">// 降温系数</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%lf %lf\n&quot;</span>, minx, (k - minx));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>注意到每次询问对不同的 $k$ ， $x,y$ 成比例，所以可以只计算一次，这时候爬山循环次数可以大大提升，此时随机方法也可使用(不然枚举太少精度不够)：</p>
 <p>(注意：此处不推荐用这种方法)</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-typedef long long ll;
-typedef double db;
-ll p, a, b, q;
-db k, t = 0.5, d, minx = 0.5, nowx = 0.5;
-db f(db x) // assume k=1
-&#123;
- return sqrt(p - a + x * x) + sqrt(p - b + (1 - x) * (1 - x));
-&#125;
-signed main()
-&#123;
- scanf(&quot;%lld%lld%lld%lld&quot;, &amp;p, &amp;a, &amp;b, &amp;q);
- mt19937 mt(time(0));
- while (t &gt; 1e-15) // t是温度参数
- &#123;
-     uniform_real_distribution&lt;db&gt; dist(-t, t);
-     db newx = minx + dist(mt);
-     nowx = newx;
-     if (f(newx) &lt; f(minx))
-     &#123;
-         minx = newx;
-     &#125;
-     t *= 0.996; // 0.996是降温系数
- &#125;
- while (q--)
- &#123;
-     scanf(&quot;%lf&quot;, &amp;k);
-     printf(&quot;%lf %lf\n&quot;, minx * k, (1 - minx) * k);
- &#125;
- return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">double</span> db;</span><br><span class="line">ll p, a, b, q;</span><br><span class="line">db k, t = <span class="number">0.5</span>, d, minx = <span class="number">0.5</span>, nowx = <span class="number">0.5</span>;</span><br><span class="line"><span class="function">db <span class="title">f</span><span class="params">(db x)</span> <span class="comment">// assume k=1</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="built_in">sqrt</span>(p - a + x * x) + <span class="built_in">sqrt</span>(p - b + (<span class="number">1</span> - x) * (<span class="number">1</span> - x));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld%lld%lld&quot;</span>, &amp;p, &amp;a, &amp;b, &amp;q);</span><br><span class="line"> <span class="function">mt19937 <span class="title">mt</span><span class="params">(time(<span class="number">0</span>))</span></span>;</span><br><span class="line"> <span class="keyword">while</span> (t &gt; <span class="number">1e-15</span>) <span class="comment">// t是温度参数</span></span><br><span class="line"> &#123;</span><br><span class="line">     <span class="function">uniform_real_distribution&lt;db&gt; <span class="title">dist</span><span class="params">(-t, t)</span></span>;</span><br><span class="line">     db newx = minx + <span class="built_in">dist</span>(mt);</span><br><span class="line">     nowx = newx;</span><br><span class="line">     <span class="keyword">if</span> (<span class="built_in">f</span>(newx) &lt; <span class="built_in">f</span>(minx))</span><br><span class="line">     &#123;</span><br><span class="line">         minx = newx;</span><br><span class="line">     &#125;</span><br><span class="line">     t *= <span class="number">0.996</span>; <span class="comment">// 0.996是降温系数</span></span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">while</span> (q--)</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="built_in">scanf</span>(<span class="string">&quot;%lf&quot;</span>, &amp;k);</span><br><span class="line">     <span class="built_in">printf</span>(<span class="string">&quot;%lf %lf\n&quot;</span>, minx * k, (<span class="number">1</span> - minx) * k);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>建议本题正解也需要学(三分法和数学法都建议要学)</p>
 </blockquote>
 <h4 id="模拟退火"><a href="#模拟退火" class="headerlink" title="模拟退火"></a>模拟退火</h4><p>simulated-annealing, SA</p>
@@ -913,21 +505,7 @@ signed main()
 <p>结论是：要求最小值时，熵跟函数值正相关；否则负相关。为了防止熵太大有时候需要将值域做变换再放到熵里面去(比如等比伸缩，取对数等)</p>
 <p>实现上，即写成：<code>exp(-delta/t)&gt;rand(0,1)</code> ，即：它大于一个 $[0,1]$ 范围随机数随机出的值。</p>
 <p>此外，在模拟退火中，通常会在一个长度与温度相关的区间内随机取下一个状态。伪代码：</p>
-<pre><code class="lang-c++">设置一个初始值 x (比如设为中点或随机数), 令 x0 = x;
-设置 t, C, t0;
-while (t &gt; t0)
-&#123;
-    在 x 的一个范围(t越大,范围越大)内随机找一个新解 x1;
-    x = x1;
-    delta = f(x1)-f(x);
-    r = 取[0,1]随机数;
-    if (新解 x1 比 x0 更优 || exp(-delta/t) &gt; r)
-    &#123;
-        x0 = x1;
-    &#125;
-    t *= C; //降温
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">设置一个初始值 <span class="built_in">x</span> (比如设为中点或随机数), 令 x0 = x;</span><br><span class="line">设置 t, C, t0;</span><br><span class="line"><span class="keyword">while</span> (t &gt; t0)</span><br><span class="line">&#123;</span><br><span class="line">    在 x 的一个范围(t越大,范围越大)内随机找一个新解 x1;</span><br><span class="line">    x = x1;</span><br><span class="line">    delta = <span class="built_in">f</span>(x1)-<span class="built_in">f</span>(x);</span><br><span class="line">    r = 取[<span class="number">0</span>,<span class="number">1</span>]随机数;</span><br><span class="line">    <span class="keyword">if</span> (新解 x1 比 x0 更优 || <span class="built_in">exp</span>(-delta/t) &gt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        x0 = x1;</span><br><span class="line">    &#125;</span><br><span class="line">    t *= C; <span class="comment">//降温</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>例题：(SCNUOJ1730)</p>
 <p>给定常数 $a,b,c,d,e,l,r$ ，求下列函数在定义域 $[l,r]$ 的最大值：</p>
 <script type="math/tex; mode=display">
@@ -935,114 +513,10 @@ f(x)=\sin(\dfrac xa)+\sin(\dfrac xb)+\sin(\dfrac xc)+\sin(\dfrac xd)+\sin(\dfrac
 <p>输入一行一个实数，代表函数最大值。你的答案被视作是正确的当且仅当与标准答案绝对误差不超过 $10^{-2}$  </p>
 <p>直接套模板即可。注意这里求最值，</p>
 <p>参考代码：(综合使用了多种技巧)</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-typedef double db;
-ll a, b, c, d, e, l, r;
-db x, t, now, mx, ans = -6;
-db f(db x)
-&#123;
-    return sin(x / a) + sin(x / b) + sin(x / c) + sin(x / d) + sin(x / e);
-&#125;
-void solve()
-&#123;
-    static ll rd = 1;//也可以用random_device生成种子
-    mt19937 mt(rd + time(0));
-    rd *= 2;
-    uniform_real_distribution&lt;db&gt; dist0(0, 1);
-    now = (l + r) / 2, t = r - l;
-    while (t &gt; 1e-6)
-    &#123;
-        uniform_real_distribution&lt;db&gt; dist(-t, t);
-        db newx = now + dist(mt);
-        newx = max(1. * l, min(1. * r, newx));
-        db fnow = f(now), fnew = f(newx);
-        db dt = (-fnew) - (-fnow);
-        if (fnow &lt; fnew || exp(-dt / t) &gt; dist0(mt))
-        &#123;
-            now = newx;
-        &#125;
-        if (ans &lt; fnew)
-        &#123;
-            ans = fnew;
-        &#125;
-        t *= 0.999;
-    &#125;
-    for (ll i = 0; i &lt; 1000; ++i) //在终温随机多次
-    &#123;
-        uniform_real_distribution&lt;db&gt; dist(-t, t);
-        db newx = now + dist(mt);
-        newx = max(1. * l, min(1. * r, newx));
-        db fnow = f(now), fnew = f(newx);
-        if (fnow &lt; fnew)
-        &#123;
-            now = newx;
-        &#125;
-        if (ans &lt; fnew)
-        &#123;
-            ans = fnew;
-        &#125;
-    &#125;
-&#125;
-signed main()
-&#123;
-    sc(a), sc(b), sc(c), sc(d), sc(e), sc(l), sc(r);
-    for (ll i = 0; i &lt; 20; ++i) //重要：多次退火
-    &#123;
-        solve();
-    &#125;
-    printf(&quot;%lf&quot;, ans);
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">double</span> db;</span><br><span class="line">ll a, b, c, d, e, l, r;</span><br><span class="line">db x, t, now, mx, ans = <span class="number">-6</span>;</span><br><span class="line"><span class="function">db <span class="title">f</span><span class="params">(db x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sin</span>(x / a) + <span class="built_in">sin</span>(x / b) + <span class="built_in">sin</span>(x / c) + <span class="built_in">sin</span>(x / d) + <span class="built_in">sin</span>(x / e);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">static</span> ll rd = <span class="number">1</span>;<span class="comment">//也可以用random_device生成种子</span></span><br><span class="line">    <span class="function">mt19937 <span class="title">mt</span><span class="params">(rd + time(<span class="number">0</span>))</span></span>;</span><br><span class="line">    rd *= <span class="number">2</span>;</span><br><span class="line">    <span class="function">uniform_real_distribution&lt;db&gt; <span class="title">dist0</span><span class="params">(<span class="number">0</span>, <span class="number">1</span>)</span></span>;</span><br><span class="line">    now = (l + r) / <span class="number">2</span>, t = r - l;</span><br><span class="line">    <span class="keyword">while</span> (t &gt; <span class="number">1e-6</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">uniform_real_distribution&lt;db&gt; <span class="title">dist</span><span class="params">(-t, t)</span></span>;</span><br><span class="line">        db newx = now + <span class="built_in">dist</span>(mt);</span><br><span class="line">        newx = <span class="built_in">max</span>(<span class="number">1.</span> * l, <span class="built_in">min</span>(<span class="number">1.</span> * r, newx));</span><br><span class="line">        db fnow = <span class="built_in">f</span>(now), fnew = <span class="built_in">f</span>(newx);</span><br><span class="line">        db dt = (-fnew) - (-fnow);</span><br><span class="line">        <span class="keyword">if</span> (fnow &lt; fnew || <span class="built_in">exp</span>(-dt / t) &gt; <span class="built_in">dist0</span>(mt))</span><br><span class="line">        &#123;</span><br><span class="line">            now = newx;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ans &lt; fnew)</span><br><span class="line">        &#123;</span><br><span class="line">            ans = fnew;</span><br><span class="line">        &#125;</span><br><span class="line">        t *= <span class="number">0.999</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; ++i) <span class="comment">//在终温随机多次</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">uniform_real_distribution&lt;db&gt; <span class="title">dist</span><span class="params">(-t, t)</span></span>;</span><br><span class="line">        db newx = now + <span class="built_in">dist</span>(mt);</span><br><span class="line">        newx = <span class="built_in">max</span>(<span class="number">1.</span> * l, <span class="built_in">min</span>(<span class="number">1.</span> * r, newx));</span><br><span class="line">        db fnow = <span class="built_in">f</span>(now), fnew = <span class="built_in">f</span>(newx);</span><br><span class="line">        <span class="keyword">if</span> (fnow &lt; fnew)</span><br><span class="line">        &#123;</span><br><span class="line">            now = newx;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ans &lt; fnew)</span><br><span class="line">        &#123;</span><br><span class="line">            ans = fnew;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">sc</span>(a), <span class="built_in">sc</span>(b), <span class="built_in">sc</span>(c), <span class="built_in">sc</span>(d), <span class="built_in">sc</span>(e), <span class="built_in">sc</span>(l), <span class="built_in">sc</span>(r);</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">0</span>; i &lt; <span class="number">20</span>; ++i) <span class="comment">//重要：多次退火</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lf&quot;</span>, ans);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>对比：爬山算法(需要随机范围，不然样例都过不了，而且次数相同时算出的精度比模拟退火差很多，可以自行跑一下就知道了)</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-typedef double db;
-ll a, b, c, d, e, l, r;
-db x, t, now, mx, ans = -6;
-db f(db x)
-&#123;
- return sin(x / a) + sin(x / b) + sin(x / c) + sin(x / d) + sin(x / e);
-&#125;
-void solve()
-&#123;
- mt19937 mt(time(0));
- uniform_real_distribution&lt;db&gt; beg(l, r);
- now = beg(mt), t = (r - l) / 2;
- while (t &gt; 1e-15)
- &#123;
-     uniform_real_distribution&lt;db&gt; dist(-t, t);
-     db newx = max(1. * l, min(1. * r, now + dist(mt)));
-     db newf = f(newx), nowf = f(now);
-     if (newf &gt; nowf)
-     &#123;
-         now = newx;
-     &#125;
-     if (newf &gt; ans)
-     &#123;
-         ans = newf;
-     &#125;
-     now = newx;
-     t *= 0.999;
- &#125;
-&#125;
-signed main()
-&#123;
- sc(a), sc(b), sc(c), sc(d), sc(e), sc(l), sc(r);
- for (ll i = 1; i &lt; 100; ++i)
- &#123;
-     solve();
- &#125;
- printf(&quot;%lf&quot;, ans);
- return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">double</span> db;</span><br><span class="line">ll a, b, c, d, e, l, r;</span><br><span class="line">db x, t, now, mx, ans = <span class="number">-6</span>;</span><br><span class="line"><span class="function">db <span class="title">f</span><span class="params">(db x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="built_in">sin</span>(x / a) + <span class="built_in">sin</span>(x / b) + <span class="built_in">sin</span>(x / c) + <span class="built_in">sin</span>(x / d) + <span class="built_in">sin</span>(x / e);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="function">mt19937 <span class="title">mt</span><span class="params">(time(<span class="number">0</span>))</span></span>;</span><br><span class="line"> <span class="function">uniform_real_distribution&lt;db&gt; <span class="title">beg</span><span class="params">(l, r)</span></span>;</span><br><span class="line"> now = <span class="built_in">beg</span>(mt), t = (r - l) / <span class="number">2</span>;</span><br><span class="line"> <span class="keyword">while</span> (t &gt; <span class="number">1e-15</span>)</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="function">uniform_real_distribution&lt;db&gt; <span class="title">dist</span><span class="params">(-t, t)</span></span>;</span><br><span class="line">     db newx = <span class="built_in">max</span>(<span class="number">1.</span> * l, <span class="built_in">min</span>(<span class="number">1.</span> * r, now + <span class="built_in">dist</span>(mt)));</span><br><span class="line">     db newf = <span class="built_in">f</span>(newx), nowf = <span class="built_in">f</span>(now);</span><br><span class="line">     <span class="keyword">if</span> (newf &gt; nowf)</span><br><span class="line">     &#123;</span><br><span class="line">         now = newx;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (newf &gt; ans)</span><br><span class="line">     &#123;</span><br><span class="line">         ans = newf;</span><br><span class="line">     &#125;</span><br><span class="line">     now = newx;</span><br><span class="line">     t *= <span class="number">0.999</span>;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="built_in">sc</span>(a), <span class="built_in">sc</span>(b), <span class="built_in">sc</span>(c), <span class="built_in">sc</span>(d), <span class="built_in">sc</span>(e), <span class="built_in">sc</span>(l), <span class="built_in">sc</span>(r);</span><br><span class="line"> <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt; <span class="number">100</span>; ++i)</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="built_in">solve</span>();</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%lf&quot;</span>, ans);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <h3 id="珂朵莉树"><a href="#珂朵莉树" class="headerlink" title="珂朵莉树"></a>珂朵莉树</h3><p><img src="/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/Snipaste_2022-02-05_16-57-15.png" alt="Snipaste_2022-02-05_16-57-15"></p>
 <p>Chtholly Tree。又名老司机树，ODT(Old Driver Tree)，自学</p>
@@ -1066,165 +540,11 @@ signed main()
 <p>输入一行两个整数 $n,m(1\le n,m\le10^5)$ </p>
 <p>接下来输入 $m$ 行，每行格式为上面所述三种之一。保证 $1\le l\le r\le10^5,1\le x\le10^7$ ，保证数据随机。</p>
 <p>对于每个操作 $3$ ，输出一行一个整数代表区间和</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-ll n;
-struct node_t
-&#123;
-    ll l, r;
-    mutable ll v; // mutable使得const可变(set元素是const)
-    node_t(const ll &amp;il, const ll &amp;ir, const ll &amp;iv) : l(il), r(ir), v(iv) &#123;&#125;
-    inline bool operator&lt;(const node_t &amp;o) const &#123; return l &lt; o.l; &#125;
-&#125;;
-set&lt;node_t&gt; odt; //建立一棵珂朵莉树
-auto split(ll x) //珂朵莉基操，原理不用管，抄就行了
-&#123;
-    if (x &gt; n)
-        return odt.end();
-    auto it = --odt.upper_bound(node_t&#123;x, 0, 0&#125;);
-    if (it-&gt;l == x)
-        return it;
-    ll l = it-&gt;l, r = it-&gt;r, v = it-&gt;v;
-    odt.erase(it);
-    odt.insert(node_t(l, x - 1, v));
-    return odt.insert(node_t(x, r, v)).first;
-&#125;
-void assign(ll l, ll r, ll v) //区间赋值为v, 均摊O(loglogn)
-&#123;
-    auto itr = split(r + 1), itl = split(l);
-    odt.erase(itl, itr);
-    odt.insert(node_t(l, r, v));
-&#125;
-void add(ll l, ll r, ll v) //区间增加v, 均摊O(loglogn)
-&#123;
-    auto itr = split(r + 1), itl = split(l);
-    for (; itl != itr; ++itl) //枚举每个子区间
-    &#123;
-        itl-&gt;v = itl-&gt;v + v;
-    &#125;
-&#125;
-ll query(ll l, ll r) //区间查询, 均摊O(loglogn)
-&#123;
-    ll res = 0;
-    auto itr = split(r + 1), itl = split(l);
-    for (; itl != itr; ++itl)
-    &#123; // itl-&gt;l, itl-&gt;r, itl-&gt;v 是当前子区间的左右端点和值
-        res += (itl-&gt;r - itl-&gt;l + 1) * (itl-&gt;v);
-    &#125;
-    return res;
-&#125;
-signed main()
-&#123;
-    sc(n);
-    odt.insert(&#123;1, n, 1236895&#125;); //初始化区间
-    ll m, cmd, l, r, x;
-    for (sc(m); m--;)
-    &#123;
-        sc(cmd), sc(l), sc(r);
-        if (cmd == 1)
-        &#123;
-            sc(x), assign(l, r, x);
-        &#125;
-        else if (cmd == 2)
-        &#123;
-            sc(x), add(l, r, x);
-        &#125;
-        else
-        &#123;
-            printf(&quot;%lld\n&quot;, query(l, r));
-        &#125;
-    &#125;
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line">ll n;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node_t</span></span><br><span class="line">&#123;</span><br><span class="line">    ll l, r;</span><br><span class="line">    <span class="keyword">mutable</span> ll v; <span class="comment">// mutable使得const可变(set元素是const)</span></span><br><span class="line">    <span class="built_in">node_t</span>(<span class="type">const</span> ll &amp;il, <span class="type">const</span> ll &amp;ir, <span class="type">const</span> ll &amp;iv) : <span class="built_in">l</span>(il), <span class="built_in">r</span>(ir), <span class="built_in">v</span>(iv) &#123;&#125;</span><br><span class="line">    <span class="keyword">inline</span> <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> <span class="type">node_t</span> &amp;o) <span class="type">const</span> &#123; <span class="keyword">return</span> l &lt; o.l; &#125;</span><br><span class="line">&#125;;</span><br><span class="line">set&lt;<span class="type">node_t</span>&gt; odt; <span class="comment">//建立一棵珂朵莉树</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">split</span><span class="params">(ll x)</span> <span class="comment">//珂朵莉基操，原理不用管，抄就行了</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt; n)</span><br><span class="line">        <span class="keyword">return</span> odt.<span class="built_in">end</span>();</span><br><span class="line">    <span class="keyword">auto</span> it = --odt.<span class="built_in">upper_bound</span>(<span class="type">node_t</span>&#123;x, <span class="number">0</span>, <span class="number">0</span>&#125;);</span><br><span class="line">    <span class="keyword">if</span> (it-&gt;l == x)</span><br><span class="line">        <span class="keyword">return</span> it;</span><br><span class="line">    ll l = it-&gt;l, r = it-&gt;r, v = it-&gt;v;</span><br><span class="line">    odt.<span class="built_in">erase</span>(it);</span><br><span class="line">    odt.<span class="built_in">insert</span>(<span class="built_in">node_t</span>(l, x - <span class="number">1</span>, v));</span><br><span class="line">    <span class="keyword">return</span> odt.<span class="built_in">insert</span>(<span class="built_in">node_t</span>(x, r, v)).first;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">assign</span><span class="params">(ll l, ll r, ll v)</span> <span class="comment">//区间赋值为v, 均摊O(loglogn)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line">    odt.<span class="built_in">erase</span>(itl, itr);</span><br><span class="line">    odt.<span class="built_in">insert</span>(<span class="built_in">node_t</span>(l, r, v));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(ll l, ll r, ll v)</span> <span class="comment">//区间增加v, 均摊O(loglogn)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line">    <span class="keyword">for</span> (; itl != itr; ++itl) <span class="comment">//枚举每个子区间</span></span><br><span class="line">    &#123;</span><br><span class="line">        itl-&gt;v = itl-&gt;v + v;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">query</span><span class="params">(ll l, ll r)</span> <span class="comment">//区间查询, 均摊O(loglogn)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">auto</span> itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line">    <span class="keyword">for</span> (; itl != itr; ++itl)</span><br><span class="line">    &#123; <span class="comment">// itl-&gt;l, itl-&gt;r, itl-&gt;v 是当前子区间的左右端点和值</span></span><br><span class="line">        res += (itl-&gt;r - itl-&gt;l + <span class="number">1</span>) * (itl-&gt;v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">sc</span>(n);</span><br><span class="line">    odt.<span class="built_in">insert</span>(&#123;<span class="number">1</span>, n, <span class="number">1236895</span>&#125;); <span class="comment">//初始化区间</span></span><br><span class="line">    ll m, cmd, l, r, x;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">sc</span>(m); m--;)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">sc</span>(cmd), <span class="built_in">sc</span>(l), <span class="built_in">sc</span>(r);</span><br><span class="line">        <span class="keyword">if</span> (cmd == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">sc</span>(x), <span class="built_in">assign</span>(l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (cmd == <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">sc</span>(x), <span class="built_in">add</span>(l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">query</span>(l, r));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>oi-wiki上的例题都把珂朵莉hack了，可以去做的例题有：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1276">洛谷-校门外的树</a></p>
 <blockquote>
 <p>参考代码：(珂朵莉树)]</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-#define re
-#define repe(i, l, r) for (re int i = l; i &lt;= r; ++i)
-#define IT set&lt;node&gt;::iterator
-using namespace std;
-#define int long long
-int n, m, x, y, c, res2;
-
-struct node
-&#123;
- int l, r;
- mutable int v;
- node(int L, int R = -1, int V = 0) : l(L), r(R), v(V) &#123;&#125;
- bool operator&lt;(const node &amp;o) const
- &#123;
-     return l &lt; o.l;
- &#125;
-&#125;;
-
-set&lt;node&gt; s;
-
-inline IT split(re int pos)
-&#123;
- IT it = s.lower_bound(node(pos));
- if (it != s.end() &amp;&amp; it-&gt;l == pos)
-     return it;
- --it;
- int L = it-&gt;l;
- int R = it-&gt;r;
- int V = it-&gt;v;
- s.erase(it);
- s.insert(node(L, pos - 1, V));
- return s.insert(node(pos, R, V)).first;
-&#125;
-
-inline void assign_val(re int l, re int r, re int val = 0)
-&#123;
- IT itr = split(r + 1), itl = split(l);
- for (; itl != itr; ++itl)
-     res2 += (itl-&gt;r - itl-&gt;l + 1) * (itl-&gt;v == 2);
- itr = split(r + 1), itl = split(l);
- s.erase(itl, itr);
- s.insert(node(l, r, val));
-&#125;
-
-inline void assign_val2(re int l, re int r, re int val = 0)
-&#123;
- IT itr = split(r + 1), itl = split(l);
- for (; itl != itr; ++itl)
-     if (itl-&gt;v == 0)
-         itl-&gt;v = 2;
-&#125;
-
-inline int query(re int l, re int r)
-&#123;
- int res = 0;
- IT itr = split(r + 1), itl = split(l);
- for (; itl != itr; ++itl)
-     res += (itl-&gt;r - itl-&gt;l + 1) * (itl-&gt;v == 2);
- return res;
-&#125;
-
-signed main()
-&#123;
- scanf(&quot;%lld%lld&quot;, &amp;n, &amp;m);
- s.insert(node(0, n, 1));
- // assign_val(0, 0, 0);
- repe(i, 1, m)
- &#123;
-     scanf(&quot;%lld%lld%lld&quot;, &amp;c, &amp;x, &amp;y);
-     if (c == 0)
-     &#123;
-         assign_val(x, y);
-     &#125;
-     else
-     &#123;
-         assign_val2(x, y);
-     &#125;
- &#125;
- printf(&quot;%lld\n%lld&quot;, query(0, n), res2);
- return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> re</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> repe(i, l, r) for (re int i = l; i &lt;= r; ++i)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> IT set<span class="string">&lt;node&gt;</span>::iterator</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"><span class="type">int</span> n, m, x, y, c, res2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">int</span> l, r;</span><br><span class="line"> <span class="keyword">mutable</span> <span class="type">int</span> v;</span><br><span class="line"> <span class="built_in">node</span>(<span class="type">int</span> L, <span class="type">int</span> R = <span class="number">-1</span>, <span class="type">int</span> V = <span class="number">0</span>) : <span class="built_in">l</span>(L), <span class="built_in">r</span>(R), <span class="built_in">v</span>(V) &#123;&#125;</span><br><span class="line"> <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> node &amp;o) <span class="type">const</span></span><br><span class="line"> &#123;</span><br><span class="line">     <span class="keyword">return</span> l &lt; o.l;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">set&lt;node&gt; s;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> IT <span class="title">split</span><span class="params">(re <span class="type">int</span> pos)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> IT it = s.<span class="built_in">lower_bound</span>(<span class="built_in">node</span>(pos));</span><br><span class="line"> <span class="keyword">if</span> (it != s.<span class="built_in">end</span>() &amp;&amp; it-&gt;l == pos)</span><br><span class="line">     <span class="keyword">return</span> it;</span><br><span class="line"> --it;</span><br><span class="line"> <span class="type">int</span> L = it-&gt;l;</span><br><span class="line"> <span class="type">int</span> R = it-&gt;r;</span><br><span class="line"> <span class="type">int</span> V = it-&gt;v;</span><br><span class="line"> s.<span class="built_in">erase</span>(it);</span><br><span class="line"> s.<span class="built_in">insert</span>(<span class="built_in">node</span>(L, pos - <span class="number">1</span>, V));</span><br><span class="line"> <span class="keyword">return</span> s.<span class="built_in">insert</span>(<span class="built_in">node</span>(pos, R, V)).first;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">assign_val</span><span class="params">(re <span class="type">int</span> l, re <span class="type">int</span> r, re <span class="type">int</span> val = <span class="number">0</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> IT itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line"> <span class="keyword">for</span> (; itl != itr; ++itl)</span><br><span class="line">     res2 += (itl-&gt;r - itl-&gt;l + <span class="number">1</span>) * (itl-&gt;v == <span class="number">2</span>);</span><br><span class="line"> itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line"> s.<span class="built_in">erase</span>(itl, itr);</span><br><span class="line"> s.<span class="built_in">insert</span>(<span class="built_in">node</span>(l, r, val));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">assign_val2</span><span class="params">(re <span class="type">int</span> l, re <span class="type">int</span> r, re <span class="type">int</span> val = <span class="number">0</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> IT itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line"> <span class="keyword">for</span> (; itl != itr; ++itl)</span><br><span class="line">     <span class="keyword">if</span> (itl-&gt;v == <span class="number">0</span>)</span><br><span class="line">         itl-&gt;v = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">query</span><span class="params">(re <span class="type">int</span> l, re <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line"> IT itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line"> <span class="keyword">for</span> (; itl != itr; ++itl)</span><br><span class="line">     res += (itl-&gt;r - itl-&gt;l + <span class="number">1</span>) * (itl-&gt;v == <span class="number">2</span>);</span><br><span class="line"> <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld&quot;</span>, &amp;n, &amp;m);</span><br><span class="line"> s.<span class="built_in">insert</span>(<span class="built_in">node</span>(<span class="number">0</span>, n, <span class="number">1</span>));</span><br><span class="line"> <span class="comment">// assign_val(0, 0, 0);</span></span><br><span class="line"> <span class="built_in">repe</span>(i, <span class="number">1</span>, m)</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld%lld&quot;</span>, &amp;c, &amp;x, &amp;y);</span><br><span class="line">     <span class="keyword">if</span> (c == <span class="number">0</span>)</span><br><span class="line">     &#123;</span><br><span class="line">         <span class="built_in">assign_val</span>(x, y);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">else</span></span><br><span class="line">     &#123;</span><br><span class="line">         <span class="built_in">assign_val2</span>(x, y);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%lld\n%lld&quot;</span>, <span class="built_in">query</span>(<span class="number">0</span>, n), res2);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </blockquote>
 <h2 id="博弈论"><a href="#博弈论" class="headerlink" title="博弈论"></a>博弈论</h2><h3 id="公平组合游戏"><a href="#公平组合游戏" class="headerlink" title="公平组合游戏"></a>公平组合游戏</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>定义公平组合游戏 (Impartial Game, ICG) ：</p>
 <ul>
@@ -1265,62 +585,11 @@ signed main()
 <p><img src="/2022/05/04/LaTeX%E6%B5%8B%E8%AF%95/image-20220422202831216.png" alt="image-20220422202831216"></p>
 <p>题意：有四组询问，以每个询问作为<strong>先手走了一步后的</strong>局面，若先手必胜输出 <code>V</code> ，否则输出 <code>L</code> 。(即当前局面必败输出 <code>V</code> ，否则输出 <code>L</code> )</p>
 <p>注意：这个博弈并不是ICG (可以看成是反常游戏，即胜者为第一个无法行动的玩家，即当前无局面可走 $\to$ 上一个人放下棋子放满 $\to$ 上一个人输 $\to$ 当前人胜)，因为<strong>无局面可走是胜</strong>，所以需要特判：</p>
-<pre><code class="lang-mermaid">graph LR;
-    a[有P局面?]--&gt;|是|b1[N局面]
-    a--&gt;|否|b2[有局面可走?]
-    b2--&gt;|是|c1[P局面]
-    b2--&gt;|否|c2[N局面]
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line"> a[有P局面?]--&gt;|是|b1[N局面]</span><br><span class="line"> a--&gt;|否|b2[有局面可走?]</span><br><span class="line"> b2--&gt;|是|c1[P局面]</span><br><span class="line"> b2--&gt;|否|c2[N局面]</span><br></pre></td></tr></table></figure>
 <p>复杂度分析：</p>
 <p>可以计数一下 $cnt$ 看看实际跑了多少次。(不过填空题不需要很在意)</p>
 <p>假设剪枝(这里没有，可以达到 $O(2^8)$ )</p>
-<pre><code class="lang-c++">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-#define sc(x) scanf(&quot;%lld&quot;, &amp;x)
-typedef long long ll;
-#define O 0
-#define X 1
-struct state
-&#123;
-    bool a[3][5];
-&#125; now;
-#define N 0
-#define P 1
-ll dfs()
-&#123;
-    ll hasP = 0, numx = 0; //是否可以移动到P
-    for (ll i = 1; i &lt;= 2; ++i)
-    &#123;
-        for (ll j = 1; j &lt;= 4; ++j)
-        &#123;
-            numx += now.a[i][j] == X;
-            if (now.a[i][j] == O)
-            &#123;
-                now.a[i][j] = X;
-                hasP |= dfs();
-                now.a[i][j] = O; //回溯
-            &#125;
-            if (j &lt; 4 &amp;&amp; now.a[i][j] == O &amp;&amp; now.a[i][j + 1] == O)
-            &#123;
-                now.a[i][j] = now.a[i][j + 1] = X;
-                hasP |= dfs();
-                now.a[i][j] = now.a[i][j + 1] = O;
-            &#125;
-        &#125;
-    &#125;
-    return hasP ? N : (numx == 8 ? N : P);
-    //一般的ICG就hasP?N:P就行了
-&#125;
-char ans[] = &quot;LV&quot;; //N(0)=V, P(1)=L ; 但是走了一步，所以先后转置，即 LV
-signed main()
-&#123;
-    now.a[1][1] = X, cout &lt;&lt; ans[dfs()];
-    now.a[1][2] = X, cout &lt;&lt; ans[dfs()];
-    now.a[1][1] = O, cout &lt;&lt; ans[dfs()];
-    now.a[1][3] = X, cout &lt;&lt; ans[dfs()];
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sc(x) scanf(<span class="string">&quot;%lld&quot;</span>, &amp;x)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> O 0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> X 1</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">state</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">bool</span> a[<span class="number">3</span>][<span class="number">5</span>];</span><br><span class="line">&#125; now;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> N 0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> P 1</span></span><br><span class="line"><span class="function">ll <span class="title">dfs</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll hasP = <span class="number">0</span>, numx = <span class="number">0</span>; <span class="comment">//是否可以移动到P</span></span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= <span class="number">2</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">1</span>; j &lt;= <span class="number">4</span>; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            numx += now.a[i][j] == X;</span><br><span class="line">            <span class="keyword">if</span> (now.a[i][j] == O)</span><br><span class="line">            &#123;</span><br><span class="line">                now.a[i][j] = X;</span><br><span class="line">                hasP |= <span class="built_in">dfs</span>();</span><br><span class="line">                now.a[i][j] = O; <span class="comment">//回溯</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (j &lt; <span class="number">4</span> &amp;&amp; now.a[i][j] == O &amp;&amp; now.a[i][j + <span class="number">1</span>] == O)</span><br><span class="line">            &#123;</span><br><span class="line">                now.a[i][j] = now.a[i][j + <span class="number">1</span>] = X;</span><br><span class="line">                hasP |= <span class="built_in">dfs</span>();</span><br><span class="line">                now.a[i][j] = now.a[i][j + <span class="number">1</span>] = O;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> hasP ? N : (numx == <span class="number">8</span> ? N : P);</span><br><span class="line">    <span class="comment">//一般的ICG就hasP?N:P就行了</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="type">char</span> ans[] = <span class="string">&quot;LV&quot;</span>; <span class="comment">//N(0)=V, P(1)=L ; 但是走了一步，所以先后转置，即 LV</span></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    now.a[<span class="number">1</span>][<span class="number">1</span>] = X, cout &lt;&lt; ans[<span class="built_in">dfs</span>()];</span><br><span class="line">    now.a[<span class="number">1</span>][<span class="number">2</span>] = X, cout &lt;&lt; ans[<span class="built_in">dfs</span>()];</span><br><span class="line">    now.a[<span class="number">1</span>][<span class="number">1</span>] = O, cout &lt;&lt; ans[<span class="built_in">dfs</span>()];</span><br><span class="line">    now.a[<span class="number">1</span>][<span class="number">3</span>] = X, cout &lt;&lt; ans[<span class="built_in">dfs</span>()];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="SG函数"><a href="#SG函数" class="headerlink" title="SG函数"></a>SG函数</h3><blockquote>
 <p>说实话实战用得不多，能用 SG 函数的基本上用上面的暴力也能做</p>
 </blockquote>
