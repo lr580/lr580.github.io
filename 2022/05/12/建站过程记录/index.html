@@ -16,7 +16,7 @@
 <meta property="og:description" content="博客搭建记录我是如何搭建本博客的一些关键过程。 Hexo环境准备参考 安装 node ，检测安装成功： 12node --versionnpm --version 安装 hexo ： 1npm install -g hexo-cli # -g 全局安装 在某个新建文件夹里： 123hexo init 博客名cd 博客名npm install 创建一篇文章：(删除暴力删就行，修改也是) 1hexo">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-05-12T10:27:48.000Z">
-<meta property="article:modified_time" content="2022-05-12T12:43:10.841Z">
+<meta property="article:modified_time" content="2022-05-14T07:38:31.706Z">
 <meta property="article:author" content="lr580">
 <meta property="article:tag" content="心得">
 <meta name="twitter:card" content="summary">
@@ -189,7 +189,7 @@
 <p>如果没有反应，可以重新编译试试：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo cl #hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
 <p>具体的代码块配置望文生义即可，比如行号。而 <code>auto_detect</code> 是指没有标明代码块代码时自动检测，关了也行。</p>
-<h2 id="评论支持"><a href="#评论支持" class="headerlink" title="评论支持"></a>评论支持</h2><p>使用 gitalk 。</p>
+<h4 id="评论支持"><a href="#评论支持" class="headerlink" title="评论支持"></a>评论支持</h4><p>使用 gitalk 。</p>
 <blockquote>
 <p>参考文献： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lucas27/p/14723040.html">issue错误解决</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43941364/article/details/104160976">副代码</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_34358365/article/details/88866068?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-4-88866068-blog-104160976.pc_relevant_paycolumn_v3&amp;spm=1001.2101.3001.4242.3&amp;utm_relevant_index=7">主代码</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/tiantianzs/article/details/122754511">错误解决2</a></p>
 <p>不使用 gitment 是因为我没折腾成功。不使用其他是因为其他评论插件好像本来就死的差不多了，因为众所周知的原因，匿名交流是被限制的</p>
@@ -209,10 +209,14 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
 <p>对代码仓库，要开启 issue (默认是开的)，其实直接用论坛代码仓库就好了。注意 issue 不能是 close 的，不然不能作评论。原理上一篇 issue 对应一个帖子的评论区。每条 issue 里的回复就是帖子的一条回复。</p>
 <p>注意，自己的 labels 是啥，那么新建 issue 就要加这个 labels (上文是 <code>gitalk</code>) ，且再加上 id ，即新建一个有两个 label (分别是：<code>gitalk</code> 和 md5 加密的玩意)的，这样创建一个 open issue 就等于手动开启了一个帖子的评论区。</p>
+<h4 id="帖子调教"><a href="#帖子调教" class="headerlink" title="帖子调教"></a>帖子调教</h4><h5 id="多个tags"><a href="#多个tags" class="headerlink" title="多个tags"></a>多个tags</h5><p><a target="_blank" rel="noopener" href="http://ijiaober.github.io/2014/08/05/hexo/hexo-04/">参考</a></p>
+<p>需要用 latex 无序列表格式隔开。单个无所谓。如：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tags: </span><br><span class="line"><span class="bullet"> -</span> md</span><br><span class="line"><span class="bullet"> -</span> 香农先修班</span><br><span class="line"><span class="bullet"> -</span> 算法</span><br></pre></td></tr></table></figure>
+<p>据称也可以用 <code>tags: [标签1, 标签2, ... , 标签n ]</code> ，还没尝试</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2022年05月12日 20:43</p>
+        <p>最后更新： 2022年05月14日 15:38</p>
         <p>原始链接： <a class="post-url" href="/2022/05/12/%E5%BB%BA%E7%AB%99%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" title="建站过程记录">https://lr580.github.io/2022/05/12/%E5%BB%BA%E7%AB%99%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</a></p>
         <footer>
             <a href="https://lr580.github.io">
@@ -299,12 +303,22 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA"><span class="post-toc-text">博客搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hexo"><span class="post-toc-text">Hexo</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="post-toc-text">环境准备</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%BB%E9%A2%98%E5%AE%89%E8%A3%85"><span class="post-toc-text">主题安装</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%BB%E9%A2%98%E8%B0%83%E6%95%99"><span class="post-toc-text">主题调教</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#miho"><span class="post-toc-text">miho</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#%E5%8F%8B%E9%93%BE%E5%9B%BE%E6%A0%87"><span class="post-toc-text">友链图标</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E7%9B%AE%E5%BD%95%E6%8E%92%E7%89%88"><span class="post-toc-text">修改目录排版</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LaTeX%E6%94%AF%E6%8C%81"><span class="post-toc-text">LaTeX支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9B%BE%E7%89%87%E6%94%AF%E6%8C%81"><span class="post-toc-text">图片支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97%E6%94%AF%E6%8C%81"><span class="post-toc-text">代码块支持</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%AF%84%E8%AE%BA%E6%94%AF%E6%8C%81"><span class="post-toc-text">评论支持</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA"><span class="post-toc-text">博客搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hexo"><span class="post-toc-text">Hexo</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="post-toc-text">环境准备</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%BB%E9%A2%98%E5%AE%89%E8%A3%85"><span class="post-toc-text">主题安装</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%BB%E9%A2%98%E8%B0%83%E6%95%99"><span class="post-toc-text">主题调教</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#miho"><span class="post-toc-text">miho</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#%E5%8F%8B%E9%93%BE%E5%9B%BE%E6%A0%87"><span class="post-toc-text">友链图标</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E7%9B%AE%E5%BD%95%E6%8E%92%E7%89%88"><span class="post-toc-text">修改目录排版</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LaTeX%E6%94%AF%E6%8C%81"><span class="post-toc-text">LaTeX支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9B%BE%E7%89%87%E6%94%AF%E6%8C%81"><span class="post-toc-text">图片支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97%E6%94%AF%E6%8C%81"><span class="post-toc-text">代码块支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AF%84%E8%AE%BA%E6%94%AF%E6%8C%81"><span class="post-toc-text">评论支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%B8%96%E5%AD%90%E8%B0%83%E6%95%99"><span class="post-toc-text">帖子调教</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E5%A4%9A%E4%B8%AAtags"><span class="post-toc-text">多个tags</span></a></li></ol></li></ol></li></ol></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
+  
+    <a href="/2022/05/13/%E8%85%90%E7%AB%B9%E6%B8%85%E6%B1%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          腐竹清汤
+        
+      </span>
+    </a>
   
   
     <a href="/2022/05/12/%E9%95%BF%E7%9B%AE%E5%BD%95%E6%B5%8B%E8%AF%95/" id="article-nav-older" class="article-nav-link-wrap">
@@ -398,7 +412,7 @@
             
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/md/" style="font-size: 20px;">md</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a>
+            <a href="/tags/MUPAD/" style="font-size: 10px;">MUPAD</a> <a href="/tags/SP/" style="font-size: 10px;">SP</a> <a href="/tags/md/" style="font-size: 20px;">md</a> <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="font-size: 20px;">小说</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">笔记</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%85%90%E7%AB%B9%E6%B8%85%E6%B1%A4/" style="font-size: 20px;">腐竹清汤</a> <a href="/tags/%E9%A6%99%E5%86%9C%E5%85%88%E4%BF%AE%E7%8F%AD/" style="font-size: 10px;">香农先修班</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -425,7 +439,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/md/" style="font-size: 20px;">md</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a>
+            <a href="/tags/MUPAD/" style="font-size: 10px;">MUPAD</a> <a href="/tags/SP/" style="font-size: 10px;">SP</a> <a href="/tags/md/" style="font-size: 20px;">md</a> <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="font-size: 20px;">小说</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">笔记</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%85%90%E7%AB%B9%E6%B8%85%E6%B1%A4/" style="font-size: 20px;">腐竹清汤</a> <a href="/tags/%E9%A6%99%E5%86%9C%E5%85%88%E4%BF%AE%E7%8F%AD/" style="font-size: 10px;">香农先修班</a>
         </div>
     </div>
 </div>
@@ -488,5 +502,11 @@
   </script>
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [ ["$","$"], ["\\(","\\)"] ], skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], processEscapes: true } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(); for (var i = 0;
+    i
+    < all.length; ++i) all[i].SourceElement().parentNode.className +=' has-jax' ; }); </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML
+"></script>
 </body>
 </html>
