@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>思维/数学题单题解 | lr580&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="lr580,lr580's Blog" />
+  
+  <meta name="description" content="五边形数(hard version)根据等差数列求和，可以推知通项：  \sum_{i&#x3D;1}^n(3i-2)&#x3D;3\dfrac{n(n+1)}{2}-2n&#x3D;\dfrac{n(3n-1)}2注意到 $n(3n-1) &gt;2^{64}$，而 $\dfrac{n(3n-1)}2 &lt; 2^{64}$，即直接计算会炸 ull，但是总答案不会， 而 $n,3n-1$ 必然一个奇数一个偶数。我们可以先选">
+<meta property="og:type" content="article">
+<meta property="og:title" content="思维&#x2F;数学题单题解">
+<meta property="og:url" content="https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/index.html">
+<meta property="og:site_name" content="lr580&#39;s blog">
+<meta property="og:description" content="五边形数(hard version)根据等差数列求和，可以推知通项：  \sum_{i&#x3D;1}^n(3i-2)&#x3D;3\dfrac{n(n+1)}{2}-2n&#x3D;\dfrac{n(3n-1)}2注意到 $n(3n-1) &gt;2^{64}$，而 $\dfrac{n(3n-1)}2 &lt; 2^{64}$，即直接计算会炸 ull，但是总答案不会， 而 $n,3n-1$ 必然一个奇数一个偶数。我们可以先选">
+<meta property="og:locale">
+<meta property="og:image" content="https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/image-20221102125457754.png">
+<meta property="article:published_time" content="2022-11-06T15:24:21.000Z">
+<meta property="article:modified_time" content="2022-11-06T15:26:39.134Z">
+<meta property="article:author" content="lr580">
+<meta property="article:tag" content="md">
+<meta property="article:tag" content="香农先修班">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/image-20221102125457754.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">lr580&#39;s 博客</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        lr580&#39;s 博客
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        建设期，不定期更新。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/lr580">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="2277379149"  ">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="洛谷博客" target="_blank" href="//lr580.blog.luogu.org">
+                            <i class="fa fa-user-o fa-2x"></i></a>
+                    
+                        <a title="友链(asympto69的博客)" target="_blank" href="//asympto69.github.io">
+                            <i class="fa fa-handshake fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-思维-数学题单题解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      思维/数学题单题解
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2022-11-06
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="五边形数-hard-version"><a href="#五边形数-hard-version" class="headerlink" title="五边形数(hard version)"></a>五边形数(hard version)</h2><p>根据等差数列求和，可以推知通项：</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^n(3i-2)=3\dfrac{n(n+1)}{2}-2n=\dfrac{n(3n-1)}2</script><p>注意到 $n(3n-1) &gt;2^{64}$，而 $\dfrac{n(3n-1)}2 &lt; 2^{64}$，即直接计算会炸 ull，但是总答案不会， 而 $n,3n-1$ 必然一个奇数一个偶数。我们可以先选取其中的偶数将其计算 $\div 2$ 再乘以奇数，则不会爆 ull。当然用 i128 的话什么事情都没有。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ull = <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line">ull n, ans;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">if</span> (n % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ans = n / <span class="number">2</span> * (<span class="number">3</span> * n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        ans = (<span class="number">3</span> * n - <span class="number">1</span>) / <span class="number">2</span> * n;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="白茶与线程博弈-hard-version"><a href="#白茶与线程博弈-hard-version" class="headerlink" title="白茶与线程博弈(hard version)"></a>白茶与线程博弈(hard version)</h2><p>设干扰线程删除了 $t$ 次时， 还剩下线程数 $m’$ 为：</p>
+<script type="math/tex; mode=display">
+m'=m-7at-30b(t-1)</script><p>设干扰线程最多删除 $t’$ 次，满足不等式：</p>
+<script type="math/tex; mode=display">
+m-7at'-30b(t'-1)\ge 0</script><p>记下取整表示为 $\lfloor x\rfloor$ ，如 $\lfloor 1.9\rfloor=1,\lfloor 2.0\rfloor=2$ 。解得：</p>
+<script type="math/tex; mode=display">
+t'=\lfloor\dfrac{m+30b}{7a+30b}\rfloor \le  \dfrac{m+30b}{7a+30b}</script><p>那么前 $t’-1$ 次追踪线程都能追踪到 $30b$ 个踪迹； 第 $t’$ 次能追踪到 $m-7at-30b(t’-1)$ 个踪迹，故总追踪数 $f$ 为：</p>
+<script type="math/tex; mode=display">
+f=30b(t'-1)+m-7at'-30b(t'-1)=m-7at'</script><script type="math/tex; mode=display">
+f=m-7a\lfloor\dfrac{m+30b}{7a+30b}\rfloor</script><p>特别注意 $t’$ 为 $0$ 时，上式不成立，需要特判。这是因为 $t’=0$ 时上述式子的意义会变成干扰线程还没删除前追踪线程就追踪了，不符合题意。如果算到 $t’=0$ ，即：</p>
+<script type="math/tex; mode=display">
+\dfrac{m+30b}{7a+30b} < 0\Rightarrow m+30b < 7a+30b \Rightarrow m < 7a</script><p>说明第一次干扰就删完了，自然追踪不到，所以应该是输出 <code>what a pity</code>。</p>
+<p>下面简要讨论该式子的数据范围。显然 $7a+30b,m+30b$ 在 long long 内。虽然中间变量 $t’=\lfloor\dfrac{m+30b}{7a+30b}\rfloor$ 的范围理论上也是 long long 的，但 $7at’$ 不可能会爆 long long。如果要爆 long long，则 $a$ 较大且 $t’$ 较大。设 $t’\ge c$，近似解得 $\dfrac{m+30b}{7a+30b}\ge c$ 即 $b\le\dfrac{m-7ac}{30(c-1)}$。设 $7at’$ 炸 long long，则有 $7at’\ge 2^{63}$，解得 $t’\ge \dfrac{2^{63}}{7a}=c$，代入得 $b\le \dfrac{(m-2^{63})a}{30(2^{63}-7a)}$。由于 $m\le 10^{16},a&gt;0$，故分子 $(m-2^{63})a &lt; 0$，且分母显然大于零，即 $b\le 0$，这与题给条件 $1\le b\le10^{16}$ 矛盾。因此，通过反证法严格证明出计算过程不会炸 long long。如果担心的话可以直接开 i128。或者可以用更简单的方法，即直接从现实意义出发，可知必然有 $f\ge 0$，即 $m\le 7at’$，故显然不会炸 long long。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> m, a, b, t, f;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; m &gt;&gt; a &gt;&gt; b;</span><br><span class="line">    t = (m + <span class="number">30</span> * b) / (<span class="number">7</span> * a + <span class="number">30</span> * b);</span><br><span class="line">    f = m - <span class="number">7</span> * a * t;</span><br><span class="line">    <span class="keyword">if</span> (t &amp;&amp; f &gt;= m / <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;I catch you, baicha&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;what a pity&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="高阶前缀和"><a href="#高阶前缀和" class="headerlink" title="高阶前缀和"></a>高阶前缀和</h2><p>设 $a=(1,1,\cdots)$，观察可得，有 $s_{j,i}$ 矩阵(这里设下标行 $j$ 从 $0$ 开始，列 $i$ 从 $0$ 开始)：</p>
+<script type="math/tex; mode=display">
+s=\begin{pmatrix}
+1&1&1&1&\cdots\\
+1&2&3&4&\cdots\\
+1&3&6&10&\cdots\\
+1&4&10&20&\cdots\\
+1&5&15&35&\cdots\\
+\vdots&\vdots&\vdots&\vdots&\ddots
+\end{pmatrix}</script><p>抽象为 $s_{j,i}$ 表示从最左上角点 $(0,1)$ 出发，只能往左和往下走，共有多少种方案能走到 $(j,i)$。显然初始值是 $s_{0,1}=1$，且根据加法原理，有：$s_{j,i}=s_{j-1,i}+s_{j,i-1}$，可以发现该组合数学意义与前缀和数组算术等价。即问题暂时转化为问方案数。</p>
+<p>显然，从 $(0,1)$ 走到 $(j,i)$ 共需要往下移动 $j$ 次，往左移动 $i-1$ 次，在这所有 $i+j-1$ 次移动里，分 $j$ 次往下，共有 $C_{i+j-1}^j$ 种方案。即：$a=(1,1,\cdots)$ 时，有：$s_{j,i}=C_{i+j-1}^j=C_{i+j-1}^{i-1}$。</p>
+<p>现在推广到 $a=(a_1,a_2,\cdots, a_n)$，有：</p>
+<script type="math/tex; mode=display">
+s=\begin{pmatrix}
+a_1&a_2&a_3&a_4&\cdots\\
+a_1&a_1+a_2&a_1+a_2+a_3&a_1+a_2+a_3+a_4&\cdots\\
+a_1&2a_1+a_2&3a_1+2a_2+a_3&4a_1+3a_2+2a_3+a_4&\cdots\\
+a_1&3a_1+a_2&6a_1+3a_2+a_3&10a_1+6a_2+3a_3+a_4&\cdots\\
+\vdots&\vdots&\vdots&\vdots&\ddots
+\end{pmatrix}</script><p>换言之，现在抽象成了，可以从任一点 $(0,i)(i\le x)$ 出发，第一步只能往下走且方案数为 $a_i$，在这之后 只能往左和往下走，共有多少种方案能走到 $(j,i)(j\ge 1)$。显然，可以将其拆分为 $x$ 个子问题，即分别从 $(0,1),(0,2),\cdots,(0,x)$ 出发，走到  $(j-1,i)$ 的方案数，将这些方案数用加法原理加起来即可，有：</p>
+<script type="math/tex; mode=display">
+s_{j+1,i}=\sum_{x=1}^iC_{j+i-x}^{j}a_x(j\ge 1)</script><p>作偏移，有：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+s_{j+1,i}=&\sum_{x=1}^{i}C_{i+j-x}^ja_x\\
+=&C_{j+i-1}^ja_1+C_{j+i-2}^ja_2+\cdots+C_{j+i-x+1}^ja_{x-1}+C_{j+i-x}^ja_x&①\\
+
+s_{j+1,i-1}=&\sum_{x=1}^{i-1}C_{i-1+j-x}^ja_x\\
+=&C_{j+i-2}^ja_1+C_{j+i-3}^ja_2+\cdots+C_{j+i-x}^ja_{ix-1}&②\\
+
+s_{j,i}=&\sum_{x=1}^{i}C_{i+j-1-x}^ja_x\\
+=&C_{j+i-2}^{j-1}a_1+C_{j+i-3}^{j-1}a_2+\cdots+C_{j+i-2}^{j-x}a_{x-1}+C_{j+i-x-1}^{j-1}a_x&③
+\end{align}</script><p>根据组合数学杨辉三角公式：$C_{n-1}^{r-1}+C_{n-1}^r=C_n^r$ 可知，$②+③=①$。由此，证明了该组合数学意义式子与题给前缀和式子等价。因此，可以用组合数学方法推导高阶前缀和。即所求为：</p>
+<script type="math/tex; mode=display">
+s_{y,x}=\sum_{k=1}^xC_{y+x-k-1}^{y-1}a_k</script><p>注意到 $y-1$ 很大，我们可以转化为求较小的 $C_{y+x-k-1}^{x-k}$，并且使用线性递推，即所求的从 $k=1$ 开始递增的组合数值分别是：</p>
+<script type="math/tex; mode=display">
+\dfrac{1}{0!},\dfrac{n}{1!},\dfrac{n(n+1)}{2!},\dfrac{n(n+1)(n+2)}{3!},\cdots</script><p>即每次让分子乘以多一个数，分母也改为下一个阶乘即可，可以降复杂度 $O(y)$ 为 $O(n)$。</p>
+<p>设 $p=10^9+7$，可以 $O(n\log p)$ 或 $O(n)$(线性逆元)求出答案。前者参考代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> ll mn = <span class="number">1e5</span> + <span class="number">10</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="function">ll <span class="title">qpow</span><span class="params">(ll a, ll b = mod - <span class="number">2</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll r = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (; b; b &gt;&gt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (b &amp; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            r = r * a % mod;</span><br><span class="line">        &#125;</span><br><span class="line">        a = a * a % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line">ll n, a[mn], x, y, t[mn], ans;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>)-&gt;ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; x &gt;&gt; y;</span><br><span class="line">    t[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>, fm = <span class="number">1</span>, fz = <span class="number">1</span>, d = y; i &lt;= n; ++i, ++d)</span><br><span class="line">    &#123;</span><br><span class="line">        fz = fz * d % mod;</span><br><span class="line">        fm = fm * i % mod;</span><br><span class="line">        t[i] = fz * <span class="built_in">qpow</span>(fm) % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = x, j = <span class="number">0</span>; i &gt;= <span class="number">1</span>; --i, ++j)</span><br><span class="line">    &#123;</span><br><span class="line">        ans = (ans + t[j] * a[i]) % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 后者：(可以过自主思考)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> ll mn = <span class="number">1e5</span> + <span class="number">10</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="function">ll <span class="title">qpow</span><span class="params">(ll a, ll b = mod - <span class="number">2</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll r = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (; b; b &gt;&gt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (b &amp; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            r = r * a % mod;</span><br><span class="line">        &#125;</span><br><span class="line">        a = a * a % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line">ll n, a[mn], x, y, t[mn], ans, fact[mn], inv[mn];</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>)-&gt;ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; x &gt;&gt; y;</span><br><span class="line">    fact[<span class="number">0</span>] = inv[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        fact[i] = fact[i - <span class="number">1</span>] * i % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    inv[n] = <span class="built_in">qpow</span>(fact[n]);</span><br><span class="line">    <span class="keyword">for</span> (ll i = n - <span class="number">1</span>; i &gt;= <span class="number">1</span>; --i) <span class="comment">//线性逆元</span></span><br><span class="line">    &#123;</span><br><span class="line">        inv[i] = inv[i + <span class="number">1</span>] * (i + <span class="number">1</span>) % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    t[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>, fm = <span class="number">1</span>, fz = <span class="number">1</span>, d = y; i &lt;= n; ++i, ++d)</span><br><span class="line">    &#123;</span><br><span class="line">        fz = fz * d % mod;</span><br><span class="line">        t[i] = fz * inv[i] % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = x, j = <span class="number">0</span>; i &gt;= <span class="number">1</span>; --i, ++j)</span><br><span class="line">    &#123;</span><br><span class="line">        ans = (ans + t[j] * a[i]) % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="OEIS"><a href="#OEIS" class="headerlink" title="OEIS"></a>OEIS</h2><p>设集合 $d_n=(b_1,\cdots, b_n),d_{n+1}=(b_1,\cdots, b_n,b_{n+1})$，考虑如何推导出 $b_{n+1}$ 的递推公式。</p>
+<p>如果将最后一个元素 $b_{n+1}$ 单独划分到一类，则前 $n$ 个元素的划分数通过递归定义发现等于 $B_n$。</p>
+<p>如果将最后一个元素与前面的任选一个元素划分到一类，有 $C_n^1$ 种选法，则剩下的 $n-1$ 个元素的划分数为 $B_{n-1}$，根据乘法原理，共有 $C_n^1B_{n-1}$ 种方案。</p>
+<p>同理，将最后一个元素与前面的任选两个元素划分到一类有 $C_n^2$ 种选法，共有 $C_n^2B_{n-2}$ 种方案。</p>
+<p>不断类推，设最后一个元素与前面 $k(0\le k\le n)$ 个元素划分到一类，有 $C_n^kB_{n-k}=C_n^{n-k}B_{n-k}$ 种方案。因此，递推公式为：</p>
+<script type="math/tex; mode=display">
+B_{n+1}=\sum_{k=0}^nC_n^{n-k}B_{n-k}=\sum_{k=0}^nC_n^kB_k</script><blockquote>
+<p>我们发现题目标题为 OEIS，而题目给出了前 $5$ 项，我们可以直接去搜索(可以打印 OEIS，赛时可以查询(数列按字典序排布，查起来不慢))，发现 $1,1,2,5,15$ 刚好是 A000110 即贝尔数。往下翻阅，能够查到递推公式：</p>
+<p><img src="/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/image-20221102125457754.png" alt="image-20221102125457754"></p>
+<p>这个公式表达的就是上文的公式，可以直接利用。</p>
+</blockquote>
+<p>根据样例可知最大的 $B_{25}$ 不超过 long long。但计算组合数时，注意选择正确的方法，否则中间变量可能会爆 long long，用阶乘算式的话如果开 int128 则不会有事。推荐的方法是使用杨辉三角，能够保证不爆 long long。</p>
+<p>杨辉三角求组合数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line">ll n;</span><br><span class="line">ll b[<span class="number">100</span>], c[<span class="number">100</span>][<span class="number">100</span>]; <span class="comment">// c(down,up)</span></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">0</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        c[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i) <span class="comment">//杨辉三角</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">1</span>; j &lt;= i; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            c[i][j] = c[i - <span class="number">1</span>][j] + c[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    b[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">0</span>; j &lt; i; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            b[i] += c[i - <span class="number">1</span>][j] * b[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; b[n];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>阶乘法：(这里化简了 $C_d^u=\dfrac{d!}{u!(d-u)!}=\dfrac{\prod_{i=d-u+1}^di}{u!}$)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> i128 = <span class="type">__int128_t</span>;</span><br><span class="line">ll n;</span><br><span class="line">i128 b[<span class="number">100</span>];</span><br><span class="line"><span class="function">i128 <span class="title">c</span><span class="params">(ll df, ll uf)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    i128 r = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = df; i &gt;= df - uf + <span class="number">1</span>; --i)</span><br><span class="line">    &#123;</span><br><span class="line">        r *= i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">2</span>; i &lt;= uf; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        r /= i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    b[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">0</span>; j &lt; i; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            b[i] += <span class="built_in">c</span>(i - <span class="number">1</span>, j) * b[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; (ll)b[n];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自主思考：</p>
+<ul>
+<li><p>若 $n\le 10^3$，无论用杨辉三角还是预处理阶乘+逆元都可以，加上取模公式即可。复杂度均为 $O(n^2)$ (后者可以线性逆元)。</p>
+</li>
+<li><p>若 $n\le 10^5$，根据贝尔数与第二类斯特林数性质，可知：$B_n=\sum_{k=0}^nS(n,k)$。</p>
+<p>同一行第二类斯特林数的计算，可以用通项公式卷积或指数生成函数，具体参见 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P5395">洛谷P5395</a>。将计算结果加起来就是 $B_n$。</p>
+</li>
+</ul>
+<h2 id="换座位"><a href="#换座位" class="headerlink" title="换座位"></a>换座位</h2><p>这题即求长为 $n$ 的排列的错位数 $d_n$。</p>
+<p>解法一：容斥原理推通项</p>
+<p>设共 $n$ 人下有 $i$ 个位置的人没有换位，这 $i$ 个位置有 $C_n^i$ 种选择，则剩下 $n-i$ 个位置有 $C_{n-i}^{n-i}=1$ 种选择，而剩下的 $n-i$ 个位置都不一样，有 $(n-i)!$ 个组法，乘法原理合起来有 $C_n^i(n-i)!$。</p>
+<p>设 $t$ 表示不满足题意的方案数，只要有人没换位都不满足，根据容斥原理有，$t=1$ 个位置的人没换位 $-2$ 个位置的人没换位 $+3$ 个位置的人没换位 $-\dots$，即：</p>
+<script type="math/tex; mode=display">
+t=\sum_{i=1}^n(-1)^{i+1}C_n^i(n-k)!=n!\sum_{i=1}^n\dfrac{(-1)^{i+1}}{i!}</script><p>则所求 $d_n$ 为总方案数 $n!$ 减去 $t$，即：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+d_n&=n!-n!\sum_{i=1}^n\dfrac{(-1)^{i+1}}{i!}\\
+&=n!\dfrac{(-1)^0}{0!}+n!\sum_{i=1}^n\dfrac{(-1)^{i+1}(-1)}{i!}\\
+&=n!\sum_{i=0}^n\dfrac{(-1)^i}{i!}
+\end{align}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line">ll n, f[<span class="number">30</span>], d;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    f[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        f[i] = f[i - <span class="number">1</span>] * i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">0</span>, s = <span class="number">1</span>; i &lt;= n; ++i, s *= <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        d += f[n] / f[i] * s;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; d;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解法二：递推公式</p>
+<p>设已知 $d_i(i &lt;n)$，要求 $d_n$。则：</p>
+<ol>
+<li>若前面 $n-1$ 个人都换好座位了，有 $d_{n-1}$ 种方案，第 $n$ 个人还在原地，从前面的人里任选一个人有 $n-1$ 种选法，将选出的人与第 $n$ 个人交换座位，可以得到合法方案，乘法原理得 $(n-1)d_{n-1}$。</li>
+<li>若前面 $n-1$ 个人里只有一个人还在原地，即剩下 $n-2$ 个人换好了，有 $d_{n-2}$ 种方案，选出这个在原地的人有 $n-1$ 种选法，将选出的人与第第 $n$ 个人交换座位，可以得到合法方案，乘法原理得 $(n-1)d_{n-2}$。</li>
+<li>若前面的人有更多人在原地，且第 $n$ 个人也在原地，则找不到一次交换操作使得能够变成合法方案。因此，递推项只有两种可能，即：</li>
+</ol>
+<script type="math/tex; mode=display">
+d_n=(n-1)(d_{n-1}+d_{n-2})</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line">ll n, d[<span class="number">30</span>] = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">4</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        d[i] = (i - <span class="number">1</span>) * (d[i - <span class="number">1</span>] + d[i - <span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; d[n];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="自然数拆分"><a href="#自然数拆分" class="headerlink" title="自然数拆分"></a>自然数拆分</h2><p>所求即分拆数 $p_n$。定义 $k$ 部分拆数 $p_{n,k}$ 表示把 $n$ 拆成 $k$ 个整数的方案，显然有 $p_n=\sum_{i=0}^np_{n,i}$。</p>
+<p>而 $p_{n,k}$ 是下面方程的解的个数：</p>
+<script type="math/tex; mode=display">
+n=r_1+r_2+\cdots+r_k\quad, r_1\ge r_2\ge\cdots\ge r_k\ge 1</script><p>将每个 $r$ 用 $y=r+1$ 换元，有 $r\ge 1$ 即 $y\ge 0$ 代替，有：</p>
+<script type="math/tex; mode=display">
+n=k+y_1+y_2+\cdots+y_k\quad,y_1\ge y_2\ge\cdots\ge y_k\ge 0</script><p>转化为：</p>
+<script type="math/tex; mode=display">
+n-k=y_1+y_2+\cdots+y_k\quad,y_1\ge y_2\ge\cdots\ge y_k\ge 0</script><p>如果这里边的 $y$ 有 $j$ 个满足 $y \ge 1$，则等效于求子问题 $p_{n-k,j}$，因此，枚举所有 $j$，有：</p>
+<script type="math/tex; mode=display">
+p(n,k)=\sum_{j=1}^kp(n-k,j)</script><p>更换变量，得：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+p(n,k)&=p(n-k,1)+\cdots+p(n-k,k-1)+p(n-k,k)\\
+p(n-1,k-1)&=p(n-k,1)+\cdots+p(n-k,k-1)
+\end{cases}</script><p>作差，得：$p(n,k)-p(n-1,k-1)=p(n-k,k)$，因此，得到递推公式：</p>
+<script type="math/tex; mode=display">
+p(n,k)=p(n-1,k-1)+p(n-k,k)</script><p>有初始值 $p_{0,0}=1$，因此本题得解。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> ll mn = <span class="number">4e2</span> + <span class="number">5</span>;</span><br><span class="line">ll n, p[mn][mn], ans;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    p[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">0</span>; j &lt;= n; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (i - j &gt;= <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                p[i][j] = p[i - j][j] + p[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">0</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        ans += p[n][i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自主思考：可以使用五边形数定理求解。具体证明较复杂，感兴趣自行查。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> ll mn = <span class="number">1e5</span> + <span class="number">10</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>, i2 = (mod + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">ll a[mn], p[mn], n;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>)-&gt;ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    p[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n / <span class="number">2</span> + <span class="number">1</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        a[<span class="number">2</span> * i - <span class="number">1</span>] = i * (<span class="number">3</span> * i - <span class="number">1</span>) % mod * i2 % mod;</span><br><span class="line">        a[<span class="number">2</span> * i] = i * (<span class="number">3</span> * i + <span class="number">1</span>) % mod * i2 % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (ll i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (ll j = <span class="number">1</span>; a[j] &lt;= i; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (((j + <span class="number">1</span>) / <span class="number">2</span> + <span class="number">1</span>) % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                p[i] = (p[i] + p[i - a[j]]) % mod;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                p[i] = (p[i] - p[i - a[j]] + mod) % mod;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; p[n];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二分次数"><a href="#二分次数" class="headerlink" title="二分次数"></a>二分次数</h2><p>可以证明，对于长为 $n=2^0+2^1+2^2+\cdots +2^p+c$ 的数组 $ASL$ 为： </p>
+<script type="math/tex; mode=display">
+ASL=\dfrac1n(1\cdot 2^0+2\cdot 2^1+3\cdot 2^2\cdots+(p+1)2^p+(p+2)c)</script><p>即有 $2^0$ 个 $t(a_i)=1$，有 $2^1$ 个 $t(a_i)=2$，有 $2^2$ 个 $t(a_i)=3\cdots$，剩下不能凑够 $2^x$ 的有 $c$ 个。</p>
+<p>注意到 $2^0+2^1+\cdots 2^p=2^{p+1}-1$，即对于给定的 $m,k$，有：</p>
+<script type="math/tex; mode=display">
+2^m+k=2^0+2^1+\cdots+2^{m-1}+(k+1)\Rightarrow p=m-1,c=k+1</script><p>利用错位相减法，对 $c_n=(an+b)q^{n-1}=(1\cdot n+0)2^{n-1}$，其前 $n$ 项和为：</p>
+<script type="math/tex; mode=display">
+S_n=(An+B)q^n-B,\quad其中 A=\dfrac{a}{q-1}=1,B=\dfrac{b-A}{q-1}=-1</script><p>故 $S_n=(n-1)2^n+1$。其中 $n$ 对应 $p+1$。故所求为：</p>
+<script type="math/tex; mode=display">
+nASL=p2^{p+1}+1+(p+2)c=(m-1)2^m+1+(m+1)(k+1)</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> ll mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="function">ll <span class="title">qpow</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll r = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (; b; b &gt;&gt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (b &amp; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            r = r * a % mod;</span><br><span class="line">        &#125;</span><br><span class="line">        a = a * a % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line">ll m, k, ans;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>)-&gt;ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin &gt;&gt; m &gt;&gt; k;</span><br><span class="line">    ans = ((m - <span class="number">1</span>) * <span class="built_in">qpow</span>(<span class="number">2</span>, m) % mod + <span class="number">1</span> + (m + <span class="number">1</span>) * (k + <span class="number">1</span>) % mod) % mod;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2022年11月06日 23:26</p>
+        <p>原始链接： <a class="post-url" href="/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/" title="思维/数学题单题解">https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/</a></p>
+        <footer>
+            <a href="https://lr580.github.io">
+                <img src="/images/logo.png" alt="lr580">
+                lr580
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/&title=《思维/数学题单题解》 — lr580's blog&pic=https://lr580.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/&title=《思维/数学题单题解》 — lr580's blog&source=QwQ" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《思维/数学题单题解》 — lr580's blog&url=https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/&via=https://lr580.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lr580.github.io/2022/11/06/%E6%80%9D%E7%BB%B4-%E6%95%B0%E5%AD%A6%E9%A2%98%E5%8D%95%E9%A2%98%E8%A7%A3/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/md/" class="color3">md</a>
+      
+    <a href="/tags/香农先修班/" class="color1">香农先修班</a>
+      
+    <a href="/tags/算法/" class="color3">算法</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%94%E8%BE%B9%E5%BD%A2%E6%95%B0-hard-version"><span class="post-toc-text">五边形数(hard version)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%99%BD%E8%8C%B6%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8D%9A%E5%BC%88-hard-version"><span class="post-toc-text">白茶与线程博弈(hard version)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%AB%98%E9%98%B6%E5%89%8D%E7%BC%80%E5%92%8C"><span class="post-toc-text">高阶前缀和</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#OEIS"><span class="post-toc-text">OEIS</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8D%A2%E5%BA%A7%E4%BD%8D"><span class="post-toc-text">换座位</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%87%AA%E7%84%B6%E6%95%B0%E6%8B%86%E5%88%86"><span class="post-toc-text">自然数拆分</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%8C%E5%88%86%E6%AC%A1%E6%95%B0"><span class="post-toc-text">二分次数</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2022/10/31/ACM%E9%9B%86%E8%AE%AD%E9%98%9F%E5%88%86%E4%BA%AB%E4%BC%9A-%E9%87%8D%E7%8E%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">ACM集训队分享会-重现</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+	
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<div id="gitalk-container"></div> <!--评论区实际地方-->
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+    var id = md5(window.location.pathname) //怕太长了
+    var gitalk = new Gitalk({
+        clientID: '6e8ca84614e8d6de868c',
+        clientSecret: 'bd819b13650d089fa5e4708a9a5cd16bb122206d',
+        id: id,
+        repo: 'lr580.github.io',
+        owner: 'lr580',
+        admin: [''], 
+        labels: 'gitalk'.split(',').filter(l => l),
+        perPage: 15,
+    	pagerDirection: 'last',
+		language: 'zh-CN',
+    })
+    gitalk.render('gitalk-container')
+	//document.write(id) //调试输出
+</script>
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2022 lr580<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lr580.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/MUPAD/" style="font-size: 10px;">MUPAD</a> <a href="/tags/SP/" style="font-size: 10px;">SP</a> <a href="/tags/md/" style="font-size: 20px;">md</a> <a href="/tags/%E5%88%86%E4%BA%AB/" style="font-size: 16.67px;">分享</a> <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="font-size: 13.33px;">小说</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 13.33px;">心得</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">笔记</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;">算法</a> <a href="/tags/%E8%85%90%E7%AB%B9%E6%B8%85%E6%B1%A4/" style="font-size: 13.33px;">腐竹清汤</a> <a href="/tags/%E8%B5%84%E6%BA%90/" style="font-size: 16.67px;">资源</a> <a href="/tags/%E9%A6%99%E5%86%9C%E5%85%88%E4%BF%AE%E7%8F%AD/" style="font-size: 16.67px;">香农先修班</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/MUPAD/" style="font-size: 10px;">MUPAD</a> <a href="/tags/SP/" style="font-size: 10px;">SP</a> <a href="/tags/md/" style="font-size: 20px;">md</a> <a href="/tags/%E5%88%86%E4%BA%AB/" style="font-size: 16.67px;">分享</a> <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="font-size: 13.33px;">小说</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 13.33px;">心得</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">笔记</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;">算法</a> <a href="/tags/%E8%85%90%E7%AB%B9%E6%B8%85%E6%B1%A4/" style="font-size: 13.33px;">腐竹清汤</a> <a href="/tags/%E8%B5%84%E6%BA%90/" style="font-size: 16.67px;">资源</a> <a href="/tags/%E9%A6%99%E5%86%9C%E5%85%88%E4%BF%AE%E7%8F%AD/" style="font-size: 16.67px;">香农先修班</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  
+<script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [ ["$","$"], ["\\(","\\)"] ], skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], processEscapes: true } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(); for (var i = 0;
+    i
+    < all.length; ++i) all[i].SourceElement().parentNode.className +=' has-jax' ; }); </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML
+"></script>
+</body>
+</html>
