@@ -16,7 +16,7 @@
 <meta property="og:description" content="部署SCNUOJ 前置条件：服务器为2核4G内存60G硬盘5M带宽的腾讯云，ubuntu20.04，刚租完开机的初始状态  SCNUOJ代码仓  安装 拉仓库腾讯云默认登录是 ubuntu 用户，先提个权： 1sudo su root 下才能操作并新建这个 &#x2F;var&#x2F;www&#x2F;scnuoj 目录，以该目录为项目根目录。  因为下文 git clone 会新建文件夹，所以实际上在 &#x2F;var&#x2F;www 执">
 <meta property="og:locale">
 <meta property="article:published_time" content="2023-09-02T09:00:07.000Z">
-<meta property="article:modified_time" content="2023-11-09T12:19:46.305Z">
+<meta property="article:modified_time" content="2023-11-22T05:03:26.596Z">
 <meta property="article:author" content="lr580">
 <meta property="article:tag" content="心得">
 <meta property="article:tag" content="香农先修班">
@@ -316,10 +316,33 @@
 <p>全部 ctrl+f 改即可。</p>
 <p>昵称同理。修改：</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">controllers/GroupController.php</span><br><span class="line">modules<span class="regexp">/admin/m</span>odels/GenerateUserForm.php</span><br><span class="line">modules<span class="regexp">/admin/</span>views<span class="regexp">/contest/</span>clarify.php</span><br><span class="line">modules<span class="regexp">/admin/</span>views<span class="regexp">/user/</span>_search.php</span><br><span class="line">messages<span class="regexp">/zh-CN/</span>app.php</span><br><span class="line">models/User.php</span><br><span class="line">views<span class="regexp">/contest/</span>_standing_group.php</span><br><span class="line">views<span class="regexp">/user/</span>_default.php</span><br></pre></td></tr></table></figure>
+<h4 id="关闭评论区"><a href="#关闭评论区" class="headerlink" title="关闭评论区"></a>关闭评论区</h4><p>偷懒，考虑虚假关闭：只不显示前端进去的入口，但是直接 url 可以访问，不真的控制权限。</p>
+<blockquote>
+<p>根据主页提示词，找到讨论区主页：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grep</span> -r <span class="string">&quot;仅展示最近三十则讨论消息，在问题页可以查看该 问题下的所有讨论。&quot;</span> </span><br></pre></td></tr></table></figure>
+<p>发现是：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">views<span class="regexp">/discuss/i</span>ndex.php</span><br></pre></td></tr></table></figure>
+<p>开 F12，看讨论标签，发现是 <code>fa-comment</code>。</p>
+<p>可以把这行字关掉。如改成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;i class=&quot;fas fa-fw fa-info-circle&quot;&gt;&lt;/i&gt; 论坛功能不予开放，不便之处敬请谅解。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>阅读 <code>view/problem/view.php</code>，发现有 <code>Yii::$app-&gt;setting-&gt;get(&#39;isDiscuss&#39;)</code></p>
+<p>继续搜索：<code>grep -r isDiscuss</code>，找到有效的：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modules<span class="regexp">/admin/</span>views<span class="regexp">/setting/i</span>ndex.php</span><br></pre></td></tr></table></figure>
+<p>——原来，本来就有这个功能，后台直接选择即可。没事了。</p>
+<h4 id="备案号添加"><a href="#备案号添加" class="headerlink" title="备案号添加"></a>备案号添加</h4><blockquote>
+<p>域名证书可以在腾讯云直接点击容易搜到下载，如果是腾讯云买的域名</p>
+</blockquote>
+<p>需要添加两个东西，理论上有内容就行，没有样式要求规定。这里懒，所以只渲染出内容即可。</p>
+<p>找到主页为 <code>views/site/index.php</code>，可以在最底下追加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;footer&gt;</span><br><span class="line">    &lt;div style=&quot;text-align: center&quot;&gt;</span><br><span class="line">        &lt;a href=&quot;https://beian.miit.gov.cn/&quot; target=&quot;_blank&quot; style=&quot;color:black&quot;&gt;粤ICP备2023133862号&lt;/a&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/footer&gt;</span><br></pre></td></tr></table></figure>
+<p>其中，备案号，可以在 href 里搜，如直接搜 <code>young-oj.cn</code>，就出来了。</p>
+<p>相关文件：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/243/61412#.E5.A6.82.E4.BD.95.E6.B7.BB.E5.8A.A0.E7.BD.91.E7.AB.99.E5.A4.87.E6.A1.88.E5.8F.B7.EF.BC.9F">here1</a> <a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/243/19142">here2</a></p>
+<p>之后再更新</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2023年11月09日 20:19</p>
+        <p>最后更新： 2023年11月22日 13:03</p>
         <p>原始链接： <a class="post-url" href="/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/" title="部署SCNUOJ">https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/</a></p>
         <footer>
             <a href="https://lr580.github.io">
@@ -410,7 +433,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%83%A8%E7%BD%B2SCNUOJ"><span class="post-toc-text">部署SCNUOJ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85"><span class="post-toc-text">安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8B%89%E4%BB%93%E5%BA%93"><span class="post-toc-text">拉仓库</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="post-toc-text">装依赖</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">数据库</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#nginx"><span class="post-toc-text">nginx</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#yii"><span class="post-toc-text">yii</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%88%A4%E9%A2%98%E9%85%8D%E7%BD%AE"><span class="post-toc-text">判题配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="post-toc-text">数据库初始化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="post-toc-text">安装编程语言</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E6%94%AF%E6%8C%81"><span class="post-toc-text">验证码支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%8B%E8%BD%BD%E6%B5%8B%E8%AF%95%E7%82%B9%E6%94%AF%E6%8C%81"><span class="post-toc-text">下载测试点支持</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91SCNUOJ"><span class="post-toc-text">二次开发SCNUOJ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AD%A6%E5%8F%B7%E5%89%8D%E7%AB%AF%E4%BF%AE%E6%94%B9"><span class="post-toc-text">学号前端修改</span></a></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%83%A8%E7%BD%B2SCNUOJ"><span class="post-toc-text">部署SCNUOJ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85"><span class="post-toc-text">安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8B%89%E4%BB%93%E5%BA%93"><span class="post-toc-text">拉仓库</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="post-toc-text">装依赖</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">数据库</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#nginx"><span class="post-toc-text">nginx</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#yii"><span class="post-toc-text">yii</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%88%A4%E9%A2%98%E9%85%8D%E7%BD%AE"><span class="post-toc-text">判题配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="post-toc-text">数据库初始化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="post-toc-text">安装编程语言</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E6%94%AF%E6%8C%81"><span class="post-toc-text">验证码支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%8B%E8%BD%BD%E6%B5%8B%E8%AF%95%E7%82%B9%E6%94%AF%E6%8C%81"><span class="post-toc-text">下载测试点支持</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91SCNUOJ"><span class="post-toc-text">二次开发SCNUOJ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AD%A6%E5%8F%B7%E5%89%8D%E7%AB%AF%E4%BF%AE%E6%94%B9"><span class="post-toc-text">学号前端修改</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%85%B3%E9%97%AD%E8%AF%84%E8%AE%BA%E5%8C%BA"><span class="post-toc-text">关闭评论区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%87%E6%A1%88%E5%8F%B7%E6%B7%BB%E5%8A%A0"><span class="post-toc-text">备案号添加</span></a></li></ol></li></ol></li></ol>
         </nav>
     </aside>
     
