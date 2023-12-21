@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>部署SCNUOJ | lr580&#39;s blog</title>
+  <title>部署与二次开发SCNUOJ | lr580&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="lr580,lr580's Blog" />
   
   <meta name="description" content="部署SCNUOJ 前置条件：服务器为2核4G内存60G硬盘5M带宽的腾讯云，ubuntu20.04，刚租完开机的初始状态  SCNUOJ代码仓  安装 拉仓库腾讯云默认登录是 ubuntu 用户，先提个权： 1sudo su root 下才能操作并新建这个 &#x2F;var&#x2F;www&#x2F;scnuoj 目录，以该目录为项目根目录。  因为下文 git clone 会新建文件夹，所以实际上在 &#x2F;var&#x2F;www 执">
 <meta property="og:type" content="article">
-<meta property="og:title" content="部署SCNUOJ">
+<meta property="og:title" content="部署与二次开发SCNUOJ">
 <meta property="og:url" content="https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/index.html">
 <meta property="og:site_name" content="lr580&#39;s blog">
 <meta property="og:description" content="部署SCNUOJ 前置条件：服务器为2核4G内存60G硬盘5M带宽的腾讯云，ubuntu20.04，刚租完开机的初始状态  SCNUOJ代码仓  安装 拉仓库腾讯云默认登录是 ubuntu 用户，先提个权： 1sudo su root 下才能操作并新建这个 &#x2F;var&#x2F;www&#x2F;scnuoj 目录，以该目录为项目根目录。  因为下文 git clone 会新建文件夹，所以实际上在 &#x2F;var&#x2F;www 执">
 <meta property="og:locale">
 <meta property="article:published_time" content="2023-09-02T09:00:07.000Z">
-<meta property="article:modified_time" content="2023-12-20T08:15:55.852Z">
+<meta property="article:modified_time" content="2023-12-21T06:52:09.493Z">
 <meta property="article:author" content="lr580">
 <meta property="article:tag" content="心得">
 <meta property="article:tag" content="香农先修班">
@@ -118,7 +118,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      部署SCNUOJ
+      部署与二次开发SCNUOJ
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -366,11 +366,16 @@
 <p>问题出在 offset 存缓存了，修改一下逻辑。修改为：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionIndex</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title class_">Yii</span>::<span class="variable">$app</span>-&gt;setting-&gt;<span class="title function_ invoke__">get</span>(<span class="string">&#x27;isContestMode&#x27;</span>) &amp;&amp; (<span class="title class_">Yii</span>::<span class="variable">$app</span>-&gt;user-&gt;isGuest || (!<span class="title class_">Yii</span>::<span class="variable">$app</span>-&gt;user-&gt;identity-&gt;<span class="title function_ invoke__">isAdmin</span>()))) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ForbiddenHttpException</span>(<span class="string">&#x27;You are not allowed to perform this action.&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 缓存键</span></span><br><span class="line">    <span class="variable">$cacheKey</span> = <span class="string">&#x27;rating-index-data&#x27;</span>;</span><br><span class="line">    <span class="comment">// 尝试从缓存中获取数据</span></span><br><span class="line">    <span class="variable">$data</span> = <span class="title class_">Yii</span>::<span class="variable">$app</span>-&gt;cache-&gt;<span class="title function_ invoke__">get</span>(<span class="variable">$cacheKey</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$data</span> === <span class="literal">false</span>) &#123;</span><br><span class="line">        <span class="comment">// 缓存中没有数据，执行数据库查询</span></span><br><span class="line">        <span class="variable">$query</span> = (<span class="keyword">new</span> <span class="title class_">Query</span>())-&gt;<span class="title function_ invoke__">select</span>(<span class="string">&#x27;u.id, u.nickname, p.student_number, u.rating, s.solved&#x27;</span>)</span><br><span class="line">            -&gt;<span class="keyword">from</span>(<span class="string">&#x27;&#123;&#123;%user&#125;&#125; AS u&#x27;</span>)</span><br><span class="line">            -&gt;<span class="title function_ invoke__">leftJoin</span>(</span><br><span class="line">            <span class="string">&#x27;(SELECT COUNT(DISTINCT problem_id) AS solved, created_by FROM &#123;&#123;%solution&#125;&#125; WHERE result=4 GROUP BY created_by ORDER BY solved DESC) as s&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;u.id=s.created_by&#x27;</span></span><br><span class="line">        )</span><br><span class="line">            -&gt;<span class="title function_ invoke__">leftJoin</span>(<span class="string">&#x27;`user_profile` `p` ON `p`.`user_id`=`u`.`id`&#x27;</span>)</span><br><span class="line">            -&gt;<span class="title function_ invoke__">orderBy</span>(<span class="string">&#x27;solved DESC, id&#x27;</span>);</span><br><span class="line">        <span class="comment">// 修改此处以获取所有用户数据</span></span><br><span class="line">        <span class="variable">$allUsers</span> = <span class="variable">$query</span>-&gt;<span class="title function_ invoke__">all</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将查询结果和当前时间保存到缓存中</span></span><br><span class="line">        <span class="variable">$currentTimestamp</span> = <span class="title function_ invoke__">time</span>();</span><br><span class="line">        <span class="comment">// 缓存全体数据，设置有效期为 600 秒（10分钟）</span></span><br><span class="line">        <span class="variable">$data</span> = [</span><br><span class="line">            <span class="string">&#x27;allUsers&#x27;</span> =&gt; <span class="variable">$allUsers</span>,</span><br><span class="line">            <span class="string">&#x27;lastUpdated&#x27;</span> =&gt; <span class="variable">$currentTimestamp</span></span><br><span class="line">        ];</span><br><span class="line">        <span class="title class_">Yii</span>::<span class="variable">$app</span>-&gt;cache-&gt;<span class="title function_ invoke__">set</span>(<span class="variable">$cacheKey</span>, <span class="variable">$data</span>, <span class="number">600</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分页处理</span></span><br><span class="line">    <span class="comment">// 假设从前端获取当前页码（pageNum）和每页大小（pageSize）</span></span><br><span class="line">    <span class="variable">$defaultPageSize</span> = <span class="number">50</span>;</span><br><span class="line">    <span class="variable">$pages</span> = <span class="keyword">new</span> <span class="title class_">Pagination</span>([</span><br><span class="line">        <span class="string">&#x27;totalCount&#x27;</span> =&gt; <span class="title function_ invoke__">count</span>(<span class="variable">$data</span>[<span class="string">&#x27;allUsers&#x27;</span>]),</span><br><span class="line">        <span class="string">&#x27;defaultPageSize&#x27;</span> =&gt; <span class="variable">$defaultPageSize</span></span><br><span class="line">    ]);</span><br><span class="line">    <span class="variable">$pageNum</span> = <span class="title class_">Yii</span>::<span class="variable">$app</span>-&gt;request-&gt;<span class="title function_ invoke__">get</span>(<span class="string">&#x27;page&#x27;</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="variable">$pageSize</span> = <span class="title class_">Yii</span>::<span class="variable">$app</span>-&gt;request-&gt;<span class="title function_ invoke__">get</span>(<span class="string">&#x27;pageSize&#x27;</span>, <span class="variable">$defaultPageSize</span>);</span><br><span class="line">    <span class="variable">$offset</span> = (<span class="variable">$pageNum</span> - <span class="number">1</span>) * <span class="variable">$pageSize</span>;</span><br><span class="line">    <span class="variable">$pagedData</span> = <span class="title function_ invoke__">array_slice</span>(<span class="variable">$data</span>[<span class="string">&#x27;allUsers&#x27;</span>], <span class="variable">$offset</span>, <span class="variable">$pageSize</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用缓存或新查询的数据渲染视图</span></span><br><span class="line">    <span class="comment">// 向视图传递分页数据和其他必要信息</span></span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">render</span>(<span class="string">&#x27;index&#x27;</span>, [</span><br><span class="line">        <span class="string">&#x27;users&#x27;</span> =&gt; <span class="variable">$pagedData</span>,</span><br><span class="line">        <span class="string">&#x27;currentPage&#x27;</span> =&gt; <span class="variable">$pageNum</span>,</span><br><span class="line">        <span class="string">&#x27;defaultPageSize&#x27;</span> =&gt; <span class="variable">$defaultPageSize</span>,</span><br><span class="line">        <span class="string">&#x27;pages&#x27;</span> =&gt; <span class="variable">$pages</span>,</span><br><span class="line">        <span class="string">&#x27;totalUsers&#x27;</span> =&gt; <span class="title function_ invoke__">count</span>(<span class="variable">$data</span>[<span class="string">&#x27;allUsers&#x27;</span>]),</span><br><span class="line">        <span class="string">&#x27;lastUpdated&#x27;</span> =&gt; <span class="variable">$data</span>[<span class="string">&#x27;lastUpdated&#x27;</span>]</span><br><span class="line">    ]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重新 pr。</p>
+<p>后来发现显示的排名不正确，多了一个页的偏移，故修改视图的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="variable">$num</span> = <span class="variable">$k</span> + <span class="variable">$currentPage</span> * <span class="variable">$defaultPageSize</span> + <span class="number">1</span>; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="variable">$num</span> = <span class="variable">$k</span> + (<span class="variable">$currentPage</span>-<span class="number">1</span>) * <span class="variable">$defaultPageSize</span> + <span class="number">1</span>; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再次 pr。</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2023年12月20日 16:15</p>
-        <p>原始链接： <a class="post-url" href="/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/" title="部署SCNUOJ">https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/</a></p>
+        <p>最后更新： 2023年12月21日 14:52</p>
+        <p>原始链接： <a class="post-url" href="/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/" title="部署与二次开发SCNUOJ">https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/</a></p>
         <footer>
             <a href="https://lr580.github.io">
                 <img src="/images/logo.png" alt="lr580">
@@ -396,7 +401,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/&title=《部署SCNUOJ》 — lr580's blog&pic=https://lr580.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/&title=《部署与二次开发SCNUOJ》 — lr580's blog&pic=https://lr580.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -406,7 +411,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/&title=《部署SCNUOJ》 — lr580's blog&source=QwQ" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/&title=《部署与二次开发SCNUOJ》 — lr580's blog&source=QwQ" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -416,7 +421,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《部署SCNUOJ》 — lr580's blog&url=https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/&via=https://lr580.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《部署与二次开发SCNUOJ》 — lr580's blog&url=https://lr580.github.io/2023/09/02/SCNUOJ%E9%83%A8%E7%BD%B2/&via=https://lr580.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -659,11 +664,5 @@
   </script>
 
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ tex2jax: { inlineMath: [ ["$","$"], ["\\(","\\)"] ], skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], processEscapes: true } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(); for (var i = 0;
-    i
-    < all.length; ++i) all[i].SourceElement().parentNode.className +=' has-jax' ; }); </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML
-"></script>
 </body>
 </html>
