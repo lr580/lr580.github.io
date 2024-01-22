@@ -16,7 +16,7 @@
 <meta property="og:description" content="博客搭建记录我是如何搭建本博客的一些关键过程。 Hexo环境准备参考 安装 node ，检测安装成功： 12node --versionnpm --version 安装 hexo ： 1npm install -g hexo-cli # -g 全局安装 在某个新建文件夹里： 123hexo init 博客名cd 博客名npm install 创建一篇文章：(删除暴力删就行，修改也是) 1hexo">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-05-12T10:27:48.000Z">
-<meta property="article:modified_time" content="2023-11-02T09:43:08.490Z">
+<meta property="article:modified_time" content="2023-12-21T06:55:29.326Z">
 <meta property="article:author" content="lr580">
 <meta property="article:tag" content="心得">
 <meta name="twitter:card" content="summary">
@@ -220,11 +220,15 @@
 <h4 id="帖子调教"><a href="#帖子调教" class="headerlink" title="帖子调教"></a>帖子调教</h4><h5 id="多个tags"><a href="#多个tags" class="headerlink" title="多个tags"></a>多个tags</h5><p><a target="_blank" rel="noopener" href="http://ijiaober.github.io/2014/08/05/hexo/hexo-04/">参考</a></p>
 <p>需要用 latex 无序列表格式隔开。单个无所谓。如：</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tags: </span><br><span class="line"><span class="bullet"> -</span> md</span><br><span class="line"><span class="bullet"> -</span> 香农先修班</span><br><span class="line"><span class="bullet"> -</span> 算法</span><br></pre></td></tr></table></figure>
-<p>据称也可以用 <code>tags: [标签1, 标签2, ... , 标签n ]</code> ，还没尝试</p>
+<p>也可以用 <code>tags: [标签1, 标签2, ... , 标签n ]</code> </p>
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><p>帖子开头的标题：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 部署与二次开发SCNUOJ</span><br><span class="line">date: 2023-09-02 17:00:07</span><br><span class="line"><span class="section">tags: [分享,心得,香农先修班]</span></span><br><span class="line"><span class="section">---</span></span><br></pre></td></tr></table></figure>
+<p>如果与帖子的文件名不一样，文件名用作 URL，帖子标题用作首页显示和正文显示。</p>
+<p>日期以 date 为准，更新帖子不影响日期。</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2023年11月02日 17:43</p>
+        <p>最后更新： 2023年12月21日 14:55</p>
         <p>原始链接： <a class="post-url" href="/2022/05/12/%E5%BB%BA%E7%AB%99%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" title="建站过程记录">https://lr580.github.io/2022/05/12/%E5%BB%BA%E7%AB%99%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</a></p>
         <footer>
             <a href="https://lr580.github.io">
@@ -311,7 +315,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA"><span class="post-toc-text">博客搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hexo"><span class="post-toc-text">Hexo</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="post-toc-text">环境准备</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%BB%E9%A2%98%E5%AE%89%E8%A3%85"><span class="post-toc-text">主题安装</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%BB%E9%A2%98%E8%B0%83%E6%95%99"><span class="post-toc-text">主题调教</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#miho"><span class="post-toc-text">miho</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#%E5%8F%8B%E9%93%BE%E5%9B%BE%E6%A0%87"><span class="post-toc-text">友链图标</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E7%9B%AE%E5%BD%95%E6%8E%92%E7%89%88"><span class="post-toc-text">修改目录排版</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LaTeX%E6%94%AF%E6%8C%81"><span class="post-toc-text">LaTeX支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9B%BE%E7%89%87%E6%94%AF%E6%8C%81"><span class="post-toc-text">图片支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97%E6%94%AF%E6%8C%81"><span class="post-toc-text">代码块支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AF%84%E8%AE%BA%E6%94%AF%E6%8C%81"><span class="post-toc-text">评论支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%B8%96%E5%AD%90%E8%B0%83%E6%95%99"><span class="post-toc-text">帖子调教</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E5%A4%9A%E4%B8%AAtags"><span class="post-toc-text">多个tags</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA"><span class="post-toc-text">博客搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hexo"><span class="post-toc-text">Hexo</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="post-toc-text">环境准备</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%BB%E9%A2%98%E5%AE%89%E8%A3%85"><span class="post-toc-text">主题安装</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%BB%E9%A2%98%E8%B0%83%E6%95%99"><span class="post-toc-text">主题调教</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#miho"><span class="post-toc-text">miho</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#%E5%8F%8B%E9%93%BE%E5%9B%BE%E6%A0%87"><span class="post-toc-text">友链图标</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E7%9B%AE%E5%BD%95%E6%8E%92%E7%89%88"><span class="post-toc-text">修改目录排版</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LaTeX%E6%94%AF%E6%8C%81"><span class="post-toc-text">LaTeX支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9B%BE%E7%89%87%E6%94%AF%E6%8C%81"><span class="post-toc-text">图片支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97%E6%94%AF%E6%8C%81"><span class="post-toc-text">代码块支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AF%84%E8%AE%BA%E6%94%AF%E6%8C%81"><span class="post-toc-text">评论支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%B8%96%E5%AD%90%E8%B0%83%E6%95%99"><span class="post-toc-text">帖子调教</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E5%A4%9A%E4%B8%AAtags"><span class="post-toc-text">多个tags</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E5%85%B6%E4%BB%96"><span class="post-toc-text">其他</span></a></li></ol></li></ol></li></ol></li></ol>
         </nav>
     </aside>
     
@@ -384,7 +388,7 @@
       <p>
         Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
         Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
-      &copy; 2023 lr580<br>
+      &copy; 2024 lr580<br>
       </p>
     </div>
   </div>
@@ -510,5 +514,11 @@
   </script>
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [ ["$","$"], ["\\(","\\)"] ], skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], processEscapes: true } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(); for (var i = 0;
+    i
+    < all.length; ++i) all[i].SourceElement().parentNode.className +=' has-jax' ; }); </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML
+"></script>
 </body>
 </html>
