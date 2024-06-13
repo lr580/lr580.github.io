@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>保研分享会-重现 | lr580&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="lr580,lr580's Blog" />
+  
+  <meta name="description" content="HyperLogLog主要 参考，附 C++ 个人实现 概率原理近似快速计算一个集合有多少个不重元素。 设元素的哈希值有 $L$ 位，哈希值第一个 $1$ 出现的位置记作 $\rho(a)$，假设一定有 $1$ 出现，则所有哈希值的最高出现位置设为 $\rho_\max$，则可以近似估计不重元素数为 $n&#x3D;2^{\rho_\max}$。 第一次出现的位置是第 $k$ 位，其概率等价于抛硬币伯努利过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="保研分享会-重现">
+<meta property="og:url" content="https://lr580.github.io/2024/06/13/HyperLogLog/index.html">
+<meta property="og:site_name" content="lr580&#39;s blog">
+<meta property="og:description" content="HyperLogLog主要 参考，附 C++ 个人实现 概率原理近似快速计算一个集合有多少个不重元素。 设元素的哈希值有 $L$ 位，哈希值第一个 $1$ 出现的位置记作 $\rho(a)$，假设一定有 $1$ 出现，则所有哈希值的最高出现位置设为 $\rho_\max$，则可以近似估计不重元素数为 $n&#x3D;2^{\rho_\max}$。 第一次出现的位置是第 $k$ 位，其概率等价于抛硬币伯努利过">
+<meta property="og:locale">
+<meta property="og:image" content="https://lr580.github.io/2024/06/13/HyperLogLog/image-20240613210110585.png">
+<meta property="article:published_time" content="2024-06-13T12:59:25.000Z">
+<meta property="article:modified_time" content="2024-06-13T13:01:50.180Z">
+<meta property="article:author" content="lr580">
+<meta property="article:tag" content="论文">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lr580.github.io/2024/06/13/HyperLogLog/image-20240613210110585.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">lr580&#39;s 博客</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        lr580&#39;s 博客
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        建设期，不定期更新。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/lr580">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="2277379149"  ">
+                            <i class="fa fa-qq fa-2x"></i></a>
+                    
+                        <a title="洛谷博客" target="_blank" href="//lr580.blog.luogu.org">
+                            <i class="fa fa-user-o fa-2x"></i></a>
+                    
+                        <a title="友链(asympto69的博客)" target="_blank" href="//asympto69.github.io">
+                            <i class="fa fa-handshake fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-HyperLogLog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      保研分享会-重现
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2024-06-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h3><p>主要 <a target="_blank" rel="noopener" href="https://www.yuque.com/abser/blog/mrv5ke">参考</a>，附 C++ 个人实现</p>
+<h4 id="概率原理"><a href="#概率原理" class="headerlink" title="概率原理"></a>概率原理</h4><p>近似快速计算一个集合有多少个不重元素。</p>
+<p>设元素的哈希值有 $L$ 位，哈希值第一个 $1$ 出现的位置记作 $\rho(a)$，假设一定有 $1$ 出现，则所有哈希值的最高出现位置设为 $\rho_\max$，则可以近似估计不重元素数为 $n=2^{\rho_\max}$。</p>
+<p>第一次出现的位置是第 $k$ 位，其概率等价于抛硬币伯努利过程，即 $P=\dfrac1{2^k}$，也就是说出现位置大于等于 $k$ 概率为 $\dfrac1{2^k}$，所以小于 $k$ 的概率是 $1-\dfrac1{2^k}$，所以 $n$ 个哈希值第一次出现 $1$ 的位都小于 $k$ 的概率为 $P_n(X &lt;  k)=(1-\dfrac1{2^k})^n$。都大于等于 $k$ 的概率为 $P_n(X\ge k)=\dfrac1{2^{kn}}$</p>
+<p>则 $n$ 个哈希值至少有一个的位等于 $k$ 的概率是：上面的概率减去每次都不超过 $k-1$ 的概率，即：$P_n(X = k)=(1-\dfrac1{2^k})^n-(1-\dfrac1{2^{k-1}})^n$。</p>
+<p>当 $n\ll 2^k$ 时，$P_n(X\ge k)\to 0$，而 $n\gg 2^k$ 时 $P_n(X &lt; k)\to 0$。也就是说，哈希值个数 $n$ 远小于 $2^k$ 时，至少一个哈希值在 $k$ 位和之后出现 $1$ 几乎不可能；$n$ 远大于 $2^k$ 时，也几乎不可能在 $k$ 位之前都没出现过 $1$。与直观经验吻合。</p>
+<p>设集合基数为 $n$，则 $2^{\rho_\max}$ 应当约等于 $n$，$\rho_\max$ 偏离很大的概率都约等于零。</p>
+<p>也就是说，未知基数 $n$，可以通过观测最大的 $1$ 的位置 $\rho_\max$ 来预估 $n\approx 2^{\rho_\max}$。</p>
+<blockquote>
+<h4 id="平均数"><a href="#平均数" class="headerlink" title="平均数"></a>平均数</h4><p>后面 hyper log log 会用到。序列 $a$ 长度为 $n$：</p>
+<ul>
+<li><p>Arithmetic Mean 算术平均 $\dfrac 1n\sum_{i=1}^n a_i$</p>
+<p>对极端值敏感，极大或极小的值会对平均结果产生较大影响</p>
+</li>
+<li><p>Geometric Mean 几何平均 $\sqrt[n]{\prod_{i=1}^n a_i}$</p>
+<p>广泛用于处理比率或增长率数据，如金融投资的年化回报率</p>
+<p>当数据集包含的数值跨越多个量级时，几何平均数能有效平衡各数值的影响，避免极端值对结果的过大影响</p>
+</li>
+<li><p>Harmonic Mean 调和平均 $\dfrac n{\sum\dfrac1{a_i}}$</p>
+<p>在处理速度、效率或其他倒数形式的数据时，调和平均数提供更为合适的平均值</p>
+<p>合并不同大小的样本时计算平均值；对数据集中的小值较为敏感</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="LogLogCounting"><a href="#LogLogCounting" class="headerlink" title="LogLogCounting"></a>LogLogCounting</h4><p>LLC <a target="_blank" rel="noopener" href="http://redisgate.kr/download/DuFl03-LNCS.pdf">论文 Loglog Counting of Large Cardinalities</a></p>
+<p>定性地设计一个尽可能满足下面条件的哈希函数：</p>
+<ol>
+<li>均匀（哈希结果理想上要均匀分布，但已经证明不可能通过一个哈希函数将一组不服从均匀分布的数据映射为绝对均匀分布，但是很多哈希函数可以生成几乎服从均匀分布的结果）(D. Knuth)</li>
+<li>哈希碰撞概率忽略不计</li>
+<li>哈希结果长度固定</li>
+</ol>
+<p>将哈希值分成 $m=2^k$ 个桶，哈希值高 $k$ 位作为桶编号 $\in [0,m)$，剩下的位里找到第一个 $1$ 的位置。设桶 $i$ 的最大的位置是 $M_i$。</p>
+<p>根据论文描述，原本是估计 $2^k$，但是不同 $k$ 差别太大了，所以用一个 $k$ 的平均值来代替，即取 $m$ 个桶的平均 $\rho_\max$ 即 $\dfrac 1m\sum_{i=1}^mM_i$ 来近似 $k$。则这几个桶的平均值来计数来估算 $n$：$\hat n=2^{\frac1m\sum_{i=o}^{m-1}M_i}$。</p>
+<p>该表达式可以认为是幂 $\rho_\max$ 用了算术平均数，也可以认为是所有 $2^{M_i}$ 的几何平均数。</p>
+<p>设哈希值长度为 $16$ 位，设 $m=2^5=32$，若有哈希值为：<code>0001001010001010</code>，则 <code>00010</code> 是桶编号剩下部分的第一个 $1$ 的位数为 $2$，所以该元素存桶就是把 $2$ 存进去。如果该桶只有一个元素，则 $M_2=2$。</p>
+<p>该估计是有偏估计，转化为无偏估计：(详见论文)</p>
+<script type="math/tex; mode=display">
+E=\alpha_mm2^{\frac1m\sum_{i=0}^{m-1}M_i}</script><p>其中 $\alpha_m=\left(\Gamma(-\dfrac1m)\dfrac{1-2^{\frac 1m}}{\log 2}\right)^n,\Gamma(s)=\dfrac1s\int_0^{\infty}e^{-t}t^sdt$</p>
+<p>论文给出结论，该观测值与实际值的标准误差为：$StdError(\dfrac{\hat n}n)\approx\dfrac{1.30}{\sqrt m}$</p>
+<p>根据误差分析，如果想要误差在 $\epsilon$ 内，则 $m &gt; (\dfrac{1.30}\epsilon)^2$</p>
+<p>例如，最多可能有一亿类 $2^{27}$，设 $m=2^{10}$，则剩下 $27-10=17$ 位，也就是说 $M_i$ 的取值在 $[0,17]$，需要 $\lceil\log_2 17\rceil=5$ 位来存每个桶，即共 $5m$ 位，$5\times 1024\div 8=640 Byte$，只需要 $1KB$  不到就可以近似存储一亿个类别。</p>
+<p>因此，其空间复杂度为 $O(m\lceil\log_2((\log_2 k)-m)\rceil)$，其中 $m$ 是常数，$k$ 是值域，故复杂度为 $O(\log\log k)$。</p>
+<h4 id="HyperLogLog-1"><a href="#HyperLogLog-1" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h4><p>HLLC <a target="_blank" rel="noopener" href="https://dmtcs.episciences.org/3545/pdf">论文 HyperLogLog: the analysis of a near-optimal cardinality estimation algorithm</a> <a target="_blank" rel="noopener" href="http://content.research.neustar.biz/blog/hll.html">在线演示 </a> <a target="_blank" rel="noopener" href="https://github.com/redis/redis/blob/unstable/src/hyperloglog.c">redis源码</a> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/681313778">源码解析</a> (如哈希函数的设计可以参考源码)</p>
+<p>改进一：调和平均数代替几何平均数。几何平均数对离群值（例如这里的 0）特别敏感，因此当存在离群值时，LLC 的偏差就会很大。n 较小时，可能存在较多空桶，而这些特殊的离群值强烈干扰了几何平均数的稳定性。</p>
+<p>调和平均为 $\dfrac{m}{\sum_{i=0}^{m-1}\frac1{2^{M_i}}}$因此，估算公式变成了：$\hat n=\dfrac{\alpha_m m^2}{\sum_{i=0}^{m-1}2^{-M_i}}$。</p>
+<p>其中，$\alpha_m=\left(m\int_0^m\log_2^m\dfrac{2+u}{1+u}du\right)^{-1}$</p>
+<p>具体而言：(参考 vldbss-learned-cost-estimation-guoliangli，出处是 vldb2022的ss)</p>
+<script type="math/tex; mode=display">
+\alpha_m=\begin{cases}
+0.673,&m=16\\
+0.698,&m=32\\
+0.709,&m=64\\
+\dfrac{0.7213}{1+\dfrac{1.079}m},&m\ge128
+\end{cases}</script><p>是无偏估计，渐近标准差为 $SE_{hllc}(\dfrac{\hat n}n)=\dfrac{1.04}{\sqrt m}$</p>
+<blockquote>
+<p>分段修正建议：设估计值为 $E$</p>
+<ul>
+<li>$E\le\dfrac52m$ 时，LC 估计(Linear Counting，线性复杂度，类似 bitmap) <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/77289303">参考</a></li>
+<li>$\dfrac52m &lt; E\le\dfrac1{30}2^{32}$ 时，HLLC 估计</li>
+<li>$E &gt; \dfrac1{30}2^{32}$ 时，$\hat n=-2^{32}\log(1-\dfrac E{2^{32}})$</li>
+</ul>
+<p>基数估计的好处：可以并行化。因为可以很容易地合并结果。</p>
+<p>横向对比其他模型：（参考 vldbss-learned-cost-estimation-guoliangli）</p>
+<ul>
+<li>FM, PCSA, AMS, BJKST, LogLog, SuperLogLog, HyperLogLog, HyperLogLog++, MinCount, AKMV, LC, BF</li>
+<li>思想包括：计算尾 1/前导 0 / k-th 最小值 / 线性同义词(linear synoposes)</li>
+<li>方法包括：基于区间、基于桶、对数哈希、顺序统计、位统计</li>
+</ul>
+<p><img src="/2024/06/13/HyperLogLog/image-20240613210110585.png" alt="image-20240613210110585"></p>
+</blockquote>
+<p>C++ 个人实验实现：</p>
+<ul>
+<li>实践表明：对小元素个数或小取值范围(没做哈希)，误差很大</li>
+<li>如果取值范围很大(即假设进行了良好哈希)，且 n 较大(如 1e6 或以上)，准确率接近 1.04 之内</li>
+<li>桶数多少与元素个数、取值范围有关，较小时(小于 1e5)干涉较大，较大时越多越准确</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> db = <span class="type">double</span>;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">HyperLogLog</span> &#123;</span><br><span class="line">    <span class="type">int</span> k, m; <span class="comment">// 选择低 k 位作为桶编号，桶数为 m</span></span><br><span class="line">    db a; <span class="comment">// 修正因子</span></span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; M; <span class="comment">// 桶，没有做进一步位域空间优化/常数优化</span></span><br><span class="line">    <span class="built_in">HyperLogLog</span>(<span class="type">int</span> k) : <span class="built_in">k</span>(k), <span class="built_in">m</span>(<span class="number">1</span>&lt;&lt;k) &#123;</span><br><span class="line">        a = <span class="number">0.7213</span> / (<span class="number">1</span> + <span class="number">1.079</span> / m);</span><br><span class="line">        M.<span class="built_in">resize</span>(m, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">insert</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> i = x &amp; ((<span class="number">1</span>&lt;&lt;k)<span class="number">-1</span>);</span><br><span class="line">        M[i] = <span class="built_in">max</span>(M[i], __builtin_ffs(x&gt;&gt;k));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        db ans = a * m * m, s = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;++i) </span><br><span class="line">            s += <span class="number">1.0</span> / (<span class="number">1LL</span>&lt;&lt;M[i]);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">round</span>(ans / s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mt19937 mt;</span><br><span class="line">    <span class="function">uniform_int_distribution&lt;<span class="type">int</span>&gt; <span class="title">dist</span><span class="params">(<span class="number">1</span>, <span class="number">1e5</span>)</span></span>; <span class="comment">// 任意调整</span></span><br><span class="line">    set&lt;<span class="type">int</span>&gt; s;</span><br><span class="line">    <span class="type">int</span> n=<span class="number">2e6</span>; <span class="comment">// 任意调整</span></span><br><span class="line">    <span class="function">HyperLogLog <span class="title">h</span><span class="params">(min(<span class="type">int</span>(log2(n)),<span class="number">16</span>))</span></span>; <span class="comment">// 任意调整</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;++i) &#123;</span><br><span class="line">        <span class="type">int</span> x = <span class="built_in">dist</span>(mt);</span><br><span class="line">        h.<span class="built_in">insert</span>(x);</span><br><span class="line">        s.<span class="built_in">insert</span>(x);</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; s.<span class="built_in">size</span>() &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; h.<span class="built_in">size</span>() &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; (<span class="number">1.</span>*h.<span class="built_in">size</span>()/s.<span class="built_in">size</span>()) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>; <span class="comment">// 任意调整</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="HyperLogLog-2"><a href="#HyperLogLog-2" class="headerlink" title="HyperLogLog++"></a>HyperLogLog++</h4><p><a target="_blank" rel="noopener" href="http://redisgate.kr/download/HyperLogLog-in-Practice.pdf">论文 Hyperloglog in practice: Algorithmic engineering of a state of the art cardinality estimation algorithm</a> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/632565939">论文解读参考</a></p>
+<p>改进：</p>
+<ul>
+<li><p>将 32 位哈希函数优化为了 64 位哈希函数</p>
+</li>
+<li><p>将偏差纠正算法作修改，从 HllOrig 修改为 HllNoBias</p>
+<p>新算法不管估算数据集大小有多大，都使用同样的内存空间(桶数目)</p>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2024年06月13日 21:01</p>
+        <p>原始链接： <a class="post-url" href="/2024/06/13/HyperLogLog/" title="保研分享会-重现">https://lr580.github.io/2024/06/13/HyperLogLog/</a></p>
+        <footer>
+            <a href="https://lr580.github.io">
+                <img src="/images/logo.png" alt="lr580">
+                lr580
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lr580.github.io/2024/06/13/HyperLogLog/&title=《保研分享会-重现》 — lr580's blog&pic=https://lr580.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lr580.github.io/2024/06/13/HyperLogLog/&title=《保研分享会-重现》 — lr580's blog&source=QwQ" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lr580.github.io/2024/06/13/HyperLogLog/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《保研分享会-重现》 — lr580's blog&url=https://lr580.github.io/2024/06/13/HyperLogLog/&via=https://lr580.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lr580.github.io/2024/06/13/HyperLogLog/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lr580.github.io/2024/06/13/HyperLogLog/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/论文/" class="color3">论文</a>
+      
+    <a href="/tags/数据库/" class="color4">数据库</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HyperLogLog"><span class="post-toc-text">HyperLogLog</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%A6%82%E7%8E%87%E5%8E%9F%E7%90%86"><span class="post-toc-text">概率原理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%B9%B3%E5%9D%87%E6%95%B0"><span class="post-toc-text">平均数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LogLogCounting"><span class="post-toc-text">LogLogCounting</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HyperLogLog-1"><span class="post-toc-text">HyperLogLog</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HyperLogLog-2"><span class="post-toc-text">HyperLogLog++</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2023/11/01/ACM%E7%94%9F%E6%B6%AF%E5%9B%9E%E5%BF%86%E5%BD%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">ACM生涯回忆录</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+	
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<div id="gitalk-container"></div> <!--评论区实际地方-->
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+    var id = md5(window.location.pathname) //怕太长了
+    var gitalk = new Gitalk({
+        clientID: '6e8ca84614e8d6de868c',
+        clientSecret: 'bd819b13650d089fa5e4708a9a5cd16bb122206d',
+        id: id,
+        repo: 'lr580.github.io',
+        owner: 'lr580',
+        admin: [''], 
+        labels: 'gitalk'.split(',').filter(l => l),
+        perPage: 15,
+    	pagerDirection: 'last',
+		language: 'zh-CN',
+    })
+    gitalk.render('gitalk-container')
+	//document.write(id) //调试输出
+</script>
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2024 lr580<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lr580.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/ACM/" style="font-size: 12px;">ACM</a> <a href="/tags/MUPAD/" style="font-size: 10px;">MUPAD</a> <a href="/tags/SP/" style="font-size: 10px;">SP</a> <a href="/tags/md/" style="font-size: 16px;">md</a> <a href="/tags/%E5%88%86%E4%BA%AB/" style="font-size: 20px;">分享</a> <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="font-size: 12px;">小说</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 14px;">心得</a> <a href="/tags/%E5%BF%83%E7%90%86%E5%AD%A6/" style="font-size: 10px;">心理学</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">笔记</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18px;">算法</a> <a href="/tags/%E8%85%90%E7%AB%B9%E6%B8%85%E6%B1%A4/" style="font-size: 12px;">腐竹清汤</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B5%84%E6%BA%90/" style="font-size: 18px;">资源</a> <a href="/tags/%E9%A6%99%E5%86%9C%E5%85%88%E4%BF%AE%E7%8F%AD/" style="font-size: 16px;">香农先修班</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/ACM/" style="font-size: 12px;">ACM</a> <a href="/tags/MUPAD/" style="font-size: 10px;">MUPAD</a> <a href="/tags/SP/" style="font-size: 10px;">SP</a> <a href="/tags/md/" style="font-size: 16px;">md</a> <a href="/tags/%E5%88%86%E4%BA%AB/" style="font-size: 20px;">分享</a> <a href="/tags/%E5%B0%8F%E8%AF%B4/" style="font-size: 12px;">小说</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 14px;">心得</a> <a href="/tags/%E5%BF%83%E7%90%86%E5%AD%A6/" style="font-size: 10px;">心理学</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">笔记</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18px;">算法</a> <a href="/tags/%E8%85%90%E7%AB%B9%E6%B8%85%E6%B1%A4/" style="font-size: 12px;">腐竹清汤</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B5%84%E6%BA%90/" style="font-size: 18px;">资源</a> <a href="/tags/%E9%A6%99%E5%86%9C%E5%85%88%E4%BF%AE%E7%8F%AD/" style="font-size: 16px;">香农先修班</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  
+<script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [ ["$","$"], ["\\(","\\)"] ], skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], processEscapes: true } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(); for (var i = 0;
+    i
+    < all.length; ++i) all[i].SourceElement().parentNode.className +=' has-jax' ; }); </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML
+"></script>
+</body>
+</html>
