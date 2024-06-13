@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>保研分享会-重现 | lr580&#39;s blog</title>
+  <title>HyperLogLog 学习笔记 | lr580&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="lr580,lr580's Blog" />
   
   <meta name="description" content="HyperLogLog主要 参考，附 C++ 个人实现 概率原理近似快速计算一个集合有多少个不重元素。 设元素的哈希值有 $L$ 位，哈希值第一个 $1$ 出现的位置记作 $\rho(a)$，假设一定有 $1$ 出现，则所有哈希值的最高出现位置设为 $\rho_\max$，则可以近似估计不重元素数为 $n&#x3D;2^{\rho_\max}$。 第一次出现的位置是第 $k$ 位，其概率等价于抛硬币伯努利过">
 <meta property="og:type" content="article">
-<meta property="og:title" content="保研分享会-重现">
+<meta property="og:title" content="HyperLogLog 学习笔记">
 <meta property="og:url" content="https://lr580.github.io/2024/06/13/HyperLogLog/index.html">
 <meta property="og:site_name" content="lr580&#39;s blog">
 <meta property="og:description" content="HyperLogLog主要 参考，附 C++ 个人实现 概率原理近似快速计算一个集合有多少个不重元素。 设元素的哈希值有 $L$ 位，哈希值第一个 $1$ 出现的位置记作 $\rho(a)$，假设一定有 $1$ 出现，则所有哈希值的最高出现位置设为 $\rho_\max$，则可以近似估计不重元素数为 $n&#x3D;2^{\rho_\max}$。 第一次出现的位置是第 $k$ 位，其概率等价于抛硬币伯努利过">
 <meta property="og:locale">
 <meta property="og:image" content="https://lr580.github.io/2024/06/13/HyperLogLog/image-20240613210110585.png">
 <meta property="article:published_time" content="2024-06-13T12:59:25.000Z">
-<meta property="article:modified_time" content="2024-06-13T13:01:50.180Z">
+<meta property="article:modified_time" content="2024-06-13T13:05:40.409Z">
 <meta property="article:author" content="lr580">
 <meta property="article:tag" content="论文">
 <meta property="article:tag" content="数据库">
@@ -119,7 +119,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      保研分享会-重现
+      HyperLogLog 学习笔记
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -230,8 +230,8 @@ E=\alpha_mm2^{\frac1m\sum_{i=0}^{m-1}M_i}</script><p>其中 $\alpha_m=\left(\Gam
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2024年06月13日 21:01</p>
-        <p>原始链接： <a class="post-url" href="/2024/06/13/HyperLogLog/" title="保研分享会-重现">https://lr580.github.io/2024/06/13/HyperLogLog/</a></p>
+        <p>最后更新： 2024年06月13日 21:05</p>
+        <p>原始链接： <a class="post-url" href="/2024/06/13/HyperLogLog/" title="HyperLogLog 学习笔记">https://lr580.github.io/2024/06/13/HyperLogLog/</a></p>
         <footer>
             <a href="https://lr580.github.io">
                 <img src="/images/logo.png" alt="lr580">
@@ -257,7 +257,7 @@ E=\alpha_mm2^{\frac1m\sum_{i=0}^{m-1}M_i}</script><p>其中 $\alpha_m=\left(\Gam
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lr580.github.io/2024/06/13/HyperLogLog/&title=《保研分享会-重现》 — lr580's blog&pic=https://lr580.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lr580.github.io/2024/06/13/HyperLogLog/&title=《HyperLogLog 学习笔记》 — lr580's blog&pic=https://lr580.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -267,7 +267,7 @@ E=\alpha_mm2^{\frac1m\sum_{i=0}^{m-1}M_i}</script><p>其中 $\alpha_m=\left(\Gam
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lr580.github.io/2024/06/13/HyperLogLog/&title=《保研分享会-重现》 — lr580's blog&source=QwQ" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lr580.github.io/2024/06/13/HyperLogLog/&title=《HyperLogLog 学习笔记》 — lr580's blog&source=QwQ" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -277,7 +277,7 @@ E=\alpha_mm2^{\frac1m\sum_{i=0}^{m-1}M_i}</script><p>其中 $\alpha_m=\left(\Gam
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《保研分享会-重现》 — lr580's blog&url=https://lr580.github.io/2024/06/13/HyperLogLog/&via=https://lr580.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HyperLogLog 学习笔记》 — lr580's blog&url=https://lr580.github.io/2024/06/13/HyperLogLog/&via=https://lr580.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
